@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -6,6 +6,11 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://raw.githubusercontent.com/rohitramu/roramu-csharp-utils/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/rohitramu/roramu-csharp-utils</PackageProjectUrl>
+    <Copyright>Rohit Ramu</Copyright>
+    <PackageVersion>1.0.0</PackageVersion>
+    <AssemblyVersion>1.0.*</AssemblyVersion>
+    <Deterministic>false</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>
