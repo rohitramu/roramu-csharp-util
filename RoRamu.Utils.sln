@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2047
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoRamu.Utils", "src\RoRamu.Utils\RoRamu.Utils.csproj", "{8B2BA1FE-B793-4452-8EBD-EA5AF8FE505A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoRamu.Utils.Logging", "src\RoRamu.Utils.Logging\RoRamu.Utils.Logging.csproj", "{3F81B7F7-8FA0-4AD7-ADFE-8BF412468F54}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8B2BA1FE-B793-4452-8EBD-EA5AF8FE505A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B2BA1FE-B793-4452-8EBD-EA5AF8FE505A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B2BA1FE-B793-4452-8EBD-EA5AF8FE505A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B2BA1FE-B793-4452-8EBD-EA5AF8FE505A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F81B7F7-8FA0-4AD7-ADFE-8BF412468F54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F81B7F7-8FA0-4AD7-ADFE-8BF412468F54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F81B7F7-8FA0-4AD7-ADFE-8BF412468F54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F81B7F7-8FA0-4AD7-ADFE-8BF412468F54}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A80C9813-CC55-4280-9708-F3995B72A474}
+	EndGlobalSection
+EndGlobal
