@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="RoRamu.Utils" Version="1.0.1" />
+    <ProjectReference Include="..\RoRamu.Utils\RoRamu.Utils.csproj" />
   </ItemGroup>
 
 </Project>

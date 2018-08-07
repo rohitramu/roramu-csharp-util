@@ -1,4 +1,4 @@
-﻿namespace RoRamu.Logging
+﻿namespace RoRamu.Utils.Logging
 {
     using System;
     using System.Linq;

@@ -1,4 +1,4 @@
-﻿namespace RoRamu.Logging
+﻿namespace RoRamu.Utils.Logging
 {
     public enum LogLevel
     {
