@@ -3,6 +3,7 @@ solution: RoRamu.Utils.sln
 mono: none
 dotnet: 2.1.2
 script:
-  - dotnet build RoRamu.Utils.sln -c Release
-after_success:
-  - find -name '*.nupkg' | xargs -i dotnet nuget push {} --api-key $NUGET_API_KEY --source $NUGET_SOURCE
+  - dotnet build src/RoRamu.Utils/RoRamu.Utils.csproj --configuration $CONFIGURATION --source $NUGET_SOURCE_PULL
+  - find src/RoRamu.Utils -name '*.nupkg' | xargs -i dotnet nuget push {} --api-key $NUGET_API_KEY --source $NUGET_SOURCE_PUSH
+  - dotnet build src/RoRamu.Utils.Logging/RoRamu.Utils.Logging.csproj --configuration $CONFIGURATION --source $NUGET_SOURCE_PULL
+  - find src/RoRamu.Utils.Logging -name '*.nupkg' | xargs -i dotnet nuget push {} --api-key $NUGET_API_KEY --source $NUGET_SOURCE_PUSH
