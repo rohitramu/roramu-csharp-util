@@ -1,6 +1,7 @@
 ﻿namespace RoRamu.Utils
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
 
     /// <summary>
@@ -17,6 +18,22 @@
         public static IEnumerable<T> SingleObjectAsEnumerable<T>(this T obj)
         {
             yield return obj;
+        }
+
+        public static bool TryRemove<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, TKey key, TValue value)
+        {
+            if (dictionary == null)
+            {
+                throw new ArgumentNullException(nameof(dictionary));
+            }
+            
+            if (!(dictionary is ICollection<KeyValuePair<TKey, TValue>> collection))
+            {
+                throw new ArgumentException($"Unable to cast {nameof(dictionary)} into an ICollection<KeyValuePair<{typeof(TKey).Name}, {typeof(TValue).Name}>>", nameof(dictionary));
+            }
+
+            var entry = new KeyValuePair<TKey, TValue>(key, value);
+            return collection.Remove(entry);
         }
 
         /// <summary>
