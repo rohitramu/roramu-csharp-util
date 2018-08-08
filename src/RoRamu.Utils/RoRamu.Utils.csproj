@@ -8,9 +8,10 @@
     <PackageLicenseUrl>https://raw.githubusercontent.com/rohitramu/roramu-csharp-utils/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/rohitramu/roramu-csharp-utils</PackageProjectUrl>
     <Copyright>Rohit Ramu</Copyright>
-    <Version>1.0.2</Version>
+    <VersionPrefix>1.0.3</VersionPrefix>
     <AssemblyVersion>1.0.*</AssemblyVersion>
     <Deterministic>false</Deterministic>
+    <NoWarn>CS7035</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
