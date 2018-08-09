@@ -31,5 +31,30 @@
 
             return result;
         }
+
+        public static void WrapSafely(Action action, Action<Exception> onError = null)
+        {
+            try
+            {
+                action?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                onError?.Invoke(ex);
+            }
+        }
+
+        public static T WrapSafely<T>(Func<T> func, Action<Exception> onError = null)
+        {
+            try
+            {
+                return func();
+            }
+            catch (Exception ex)
+            {
+                onError?.Invoke(ex);
+                return default(T);
+            }
+        }
     }
 }
