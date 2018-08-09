@@ -1,12 +1,21 @@
 ﻿namespace RoRamu.Utils.Logging
 {
+    using System;
     using System.Collections.Concurrent;
 
     public abstract class Logger
     {
         private static readonly ConcurrentDictionary<string, Logger> _loggerCache = new ConcurrentDictionary<string, Logger>();
 
-        public static readonly Logger DefaultLogger = Logger.GetLogger<ConsoleLogger>();
+        private static Logger _defaultLogger = Logger.GetLogger<ConsoleLogger>();
+        public static Logger Default
+        {
+            get => _defaultLogger;
+            set
+            {
+                _defaultLogger = value ?? throw new ArgumentNullException(nameof(value));
+            }
+        }
 
         public static Logger GetLogger<TLoggerType>() where TLoggerType : Logger, new()
         {
