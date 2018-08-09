@@ -1,6 +1,7 @@
 ﻿namespace RoRamu.Utils
 {
     using System;
+    using Newtonsoft.Json;
 
     public static class ExceptionUtils
     {
@@ -26,7 +27,7 @@
                 obj = exception.Message;
             }
 
-            string result = JsonUtils.SerializeToJson(obj);
+            string result = JsonConvert.SerializeObject(obj);
 
             return result;
         }
