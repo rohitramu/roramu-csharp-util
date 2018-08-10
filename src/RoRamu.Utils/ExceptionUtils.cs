@@ -1,6 +1,7 @@
 ﻿namespace RoRamu.Utils
 {
     using System;
+    using System.Collections.Generic;
     using Newtonsoft.Json;
 
     public static class ExceptionUtils
@@ -12,6 +13,14 @@
                 throw new ArgumentNullException(nameof(exception));
             }
 
+            IList<string> messagesList = new List<string>();
+            Exception current = exception.InnerException;
+            while (current != null)
+            {
+                messagesList.Add(current.Message);
+                current = current.InnerException;
+            }
+
             object obj;
             if (includeStackTraceAndExceptionType)
             {
@@ -19,12 +28,17 @@
                 {
                     type = exception.GetType().FullName,
                     message = exception.Message,
-                    stackTrace = exception.StackTrace,
+                    innerMessages = messagesList,
+                    stackTrace = exception.StackTrace.Replace("\r", string.Empty).Split('\n'),
                 };
             }
             else
             {
-                obj = exception.Message;
+                obj = new
+                {
+                    message = exception.Message,
+                    innerMessages = messagesList,
+                };
             }
 
             string result = JsonConvert.SerializeObject(obj);
