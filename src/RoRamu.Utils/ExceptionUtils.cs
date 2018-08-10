@@ -17,9 +17,9 @@
             {
                 obj = new
                 {
-                    Type = exception.GetType().FullName,
-                    Message = exception.Message,
-                    StackTrace = exception.StackTrace,
+                    type = exception.GetType().FullName,
+                    message = exception.Message,
+                    stackTrace = exception.StackTrace,
                 };
             }
             else
