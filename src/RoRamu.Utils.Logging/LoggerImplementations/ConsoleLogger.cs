@@ -1,6 +1,8 @@
 ﻿namespace RoRamu.Utils.Logging
 {
     using System;
+    using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Text;
@@ -30,17 +32,48 @@
 
             if (extraInfo != null)
             {
-                string separator = "=========|=========|=========|=========|=========|=========|=========|=========|=========|=========";
+                // Create the lines in the header text
+                string[] headerText = new string[]
+                {
+                    $"Call:   {memberName}()",
+                    $"File:   {sourceFilePath}",
+                    $"Line:   {sourceLineNumber}",
+                };
+
+                // Read the lines in the main text
+                IList<string> mainText = new List<string>();
+                using (StringReader reader = new StringReader(extraInfo.ToString()))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        mainText.Add(line);
+                    }
+                }
+
+                // Create a separator based on the longest line in the text
+                int separatorLength = Math.Max(
+                    headerText.Select(line => line.Length).Max(), // header text width
+                    mainText.Select(line => line.Length).Max()); // main text width
+
+                string separator = $"+{new string('-', separatorLength)}+";
 
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.AppendLine(separator);
-                stringBuilder.AppendLine($"Call:   {memberName}()");
-                stringBuilder.AppendLine($"File:   {sourceFilePath}");
-                stringBuilder.AppendLine($"Line:   {sourceLineNumber}");
+                foreach (string line in headerText)
+                {
+                    // Header text
+                    stringBuilder.AppendLine($"|{line.PadRight(separatorLength)}|");
+                }
                 stringBuilder.AppendLine(separator);
-                stringBuilder.AppendLine(extraInfo.ToString());
+                foreach (string line in mainText)
+                {
+                    // Main text
+                    stringBuilder.AppendLine($"|{line.PadRight(separatorLength)}|");
+                }
                 stringBuilder.AppendLine(separator);
 
+                // Compile the log text
                 logMessage += $"\n{stringBuilder.ToString().Indent(indentSize, indentToken)}\n";
             }
 
