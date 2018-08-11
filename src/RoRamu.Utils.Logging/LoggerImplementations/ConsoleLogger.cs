@@ -1,25 +1,30 @@
 ﻿namespace RoRamu.Utils.Logging
 {
     using System;
-    using System.Linq;
+    using System.Runtime.CompilerServices;
     using RoRamu.Utils;
 
     public class ConsoleLogger : Logger
     {
-        protected override void HandleLog<T>(LogLevel logLevel, string message, T extraInfo)
+        protected override void HandleLog<T>(
+            LogLevel logLevel,
+            string message,
+            T extraInfo,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
         {
-            int indent = 10;
-            string prefix = $"[{logLevel.ToString()}]".PadRight(indent - 1);
-            string logMessage = prefix;
-            string[] splitMessage = message.Split("\n");
-            logMessage += $" {splitMessage[0]}";
-            if (splitMessage.Length > 1)
+            string logMessage = $"[{logLevel.ToString()}]".PadRight(9);
+            logMessage += $" '{memberName}' in '{sourceFilePath}' (line {sourceLineNumber})";
+            if (message != null)
             {
-                logMessage += $"\n{string.Join('\n', splitMessage.Skip(1)).Indent(indent, " ")}";
+                logMessage += $"\n{message.Indent()}";
             }
             if (extraInfo != null)
             {
-                logMessage += $"\n{extraInfo.ToString().Indent(indent, " ")}";
+                logMessage += "\n--";
+                logMessage += $"\n{extraInfo.ToString().Indent()}";
+                logMessage += "\n--\n";
             }
 
             Console.WriteLine(logMessage);
