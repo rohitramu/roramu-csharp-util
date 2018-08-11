@@ -14,17 +14,21 @@
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
+            string indentToken = " ";
+            int indentSize = 10;
             string logMessage = $"[{logLevel.ToString()}]".PadRight(9);
             logMessage += $" '{memberName}' in '{sourceFilePath}' (line {sourceLineNumber})";
             if (message != null)
             {
-                logMessage += $"\n{message.Indent()}";
+                logMessage += $"\n{message.Indent(indentSize, indentToken)}";
             }
             if (extraInfo != null)
             {
-                logMessage += "\n--";
-                logMessage += $"\n{extraInfo.ToString().Indent()}";
-                logMessage += "\n--\n";
+                logMessage += "\n";
+                logMessage += "--".Indent(indentSize, indentToken);
+                logMessage += $"\n{extraInfo.ToString().Indent(indentSize, indentToken)}\n";
+                logMessage += "--".Indent(indentSize, indentToken);
+                logMessage += "\n";
             }
 
             Console.WriteLine(logMessage);
