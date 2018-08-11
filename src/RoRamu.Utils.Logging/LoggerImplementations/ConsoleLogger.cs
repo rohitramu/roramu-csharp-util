@@ -16,12 +16,15 @@
         {
             string indentToken = " ";
             int indentSize = 10;
-            string logMessage = $"[{logLevel.ToString()}]".PadRight(9);
+
+            string logMessage = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} [{logLevel.ToString()}]".PadRight(9);
             logMessage += $" '{memberName}' in '{sourceFilePath}' (line {sourceLineNumber})";
+
             if (message != null)
             {
                 logMessage += $"\n{message.Indent(indentSize, indentToken)}";
             }
+
             if (extraInfo != null)
             {
                 logMessage += "\n";
