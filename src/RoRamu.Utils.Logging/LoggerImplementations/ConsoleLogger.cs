@@ -30,13 +30,16 @@
 
             if (extraInfo != null)
             {
+                string separator = "=========|=========|=========|=========|=========|=========|=========|=========|=========|=========";
+
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.AppendLine("========");
-                stringBuilder.AppendLine($"== Call: {memberName}()");
-                stringBuilder.AppendLine($"== File:   {sourceFilePath}");
-                stringBuilder.AppendLine($"== Line:   {sourceLineNumber}");
-                stringBuilder.AppendLine("========");
+                stringBuilder.AppendLine(separator);
+                stringBuilder.AppendLine($"Call:   {memberName}()");
+                stringBuilder.AppendLine($"File:   {sourceFilePath}");
+                stringBuilder.AppendLine($"Line:   {sourceLineNumber}");
+                stringBuilder.AppendLine(separator);
                 stringBuilder.AppendLine(extraInfo.ToString());
+                stringBuilder.AppendLine(separator);
 
                 logMessage += $"\n{stringBuilder.ToString().Indent(indentSize, indentToken)}\n";
             }
