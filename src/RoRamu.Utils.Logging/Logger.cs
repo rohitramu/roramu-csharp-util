@@ -45,15 +45,15 @@
             LogLevel logLevel,
             string message,
             T extraInfo,
-            [CallerMemberName] string memberName = "",
-            [CallerFilePath] string sourceFilePath = "",
-            [CallerLineNumber] int sourceLineNumber = 0) where T : class;
+            string callerName,
+            string sourceFilePath,
+            int sourceLineNumber) where T : class;
 
         public void Log<T>(
             LogLevel logLevel,
             string message,
             T extraInfo,
-            [CallerMemberName] string memberName = "",
+            [CallerMemberName] string callerName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
             where T : class
@@ -66,7 +66,7 @@
                         logLevel,
                         message,
                         LogExtraInfo ? extraInfo : null,
-                        memberName,
+                        callerName,
                         sourceFilePath,
                         sourceLineNumber);
                 }).ContinueWith(task =>
@@ -80,7 +80,7 @@
         public void Log(
             LogLevel logLevel,
             string message,
-            [CallerMemberName] string memberName = "",
+            [CallerMemberName] string callerName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
@@ -88,7 +88,7 @@
                 logLevel,
                 message,
                 null,
-                memberName,
+                callerName,
                 sourceFilePath,
                 sourceLineNumber);
         }

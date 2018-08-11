@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Runtime.CompilerServices;
     using System.Text;
     using RoRamu.Utils;
 
@@ -16,9 +15,9 @@
             LogLevel logLevel,
             string message,
             T extraInfo,
-            [CallerMemberName] string memberName = "",
-            [CallerFilePath] string sourceFilePath = "",
-            [CallerLineNumber] int sourceLineNumber = 0)
+            string callerName,
+            string sourceFilePath,
+            int sourceLineNumber)
         {
             string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             string indentToken = " ";
@@ -35,7 +34,7 @@
                 // Create the lines in the header text
                 string[] headerText = new string[]
                 {
-                    $"Call:   {memberName}()",
+                    $"Call:   {callerName}()",
                     $"File:   {sourceFilePath}",
                     $"Line:   {sourceLineNumber}",
                 };
