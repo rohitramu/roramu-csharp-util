@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Concurrent;
     using System.Runtime.CompilerServices;
+    using System.Threading.Tasks;
 
     public abstract class Logger
     {
@@ -59,13 +60,20 @@
         {
             if (logLevel >= LogLevel)
             {
-                this.HandleLog(
-                    logLevel,
-                    message,
-                    LogExtraInfo ? extraInfo : null,
-                    memberName,
-                    sourceFilePath,
-                    sourceLineNumber);
+                Task.Run(() =>
+                {
+                    this.HandleLog(
+                        logLevel,
+                        message,
+                        LogExtraInfo ? extraInfo : null,
+                        memberName,
+                        sourceFilePath,
+                        sourceLineNumber);
+                }).ContinueWith(task =>
+                {
+                    // In order to swallow the exception, we have to access the Exception property so it doesn't get propogated
+                    var ex = task.Exception;
+                }, TaskContinuationOptions.OnlyOnFaulted);
             }
         }
 
