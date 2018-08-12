@@ -71,7 +71,7 @@
                 }).ContinueWith(task =>
                 {
                     // In order to swallow the exception, we have to access the Exception property so it doesn't get propogated
-                    var ex = task.Exception;
+                    Console.WriteLine(task.Exception);
                 }, TaskContinuationOptions.OnlyOnFaulted);
             }
         }
