@@ -72,11 +72,14 @@
                 stringBuilder.AppendLine(separator);
                 foreach (IEnumerable<string> lines in sections)
                 {
+                    // Append all the lines in this section
                     foreach (string line in lines)
                     {
                         stringBuilder.AppendLine($"|{line.PadRight(separatorLength)}|");
-                        stringBuilder.AppendLine(separator);
                     }
+
+                    // Add separator
+                    stringBuilder.AppendLine(separator);
                 }
 
                 // Compile the log text
