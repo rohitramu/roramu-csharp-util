@@ -31,21 +31,23 @@
 
             if (Logger.LogExtraInfo)
             {
-                // Get the name of the extraInfo object's type
-                string extraInfoType = typeof(T).FullName;
+                IList<IEnumerable<string>> sections = new List<IEnumerable<string>>();
 
                 // Create the lines in the header text
-                string[] headerText = new string[]
+                sections.Add(new string[]
                 {
                     $"Call: {callerName}()",
                     $"File: {sourceFilePath}",
                     $"Line: {sourceLineNumber}",
-                };
+                });
 
                 // Read the lines in the main text
-                IList<string> mainText = new List<string>();
                 if (extraInfo != null)
                 {
+                    // Get the name of the extraInfo object's type
+                    sections.Add(extraInfo.GetType().FullName.SingleObjectAsEnumerable());
+
+                    IList<string> mainText = new List<string>();
                     using (StringReader reader = new StringReader(extraInfo.ToString()))
                     {
                         string line;
@@ -54,43 +56,28 @@
                             mainText.Add(line);
                         }
                     }
+                    sections.Add(mainText);
                 }
 
                 // Create a separator based on the longest line in the text
-                int separatorLength = new int[]
-                {
-                    headerText.Select(line => line.Length).Max(), // header text width
-                    extraInfoType.Length, // type name width
-                    mainText.Select(line => line.Length).Max(), // main text width
-                }.Max();
+                int separatorLength = sections.Select(lines => lines.Select(line => line.Length).Max()).Max();
 
                 // Create the separator
                 string separator = $"+{new string('-', separatorLength)}+";
 
                 // Create a string builder to construct the result
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.AppendLine(separator);
 
-                // Header text
-                foreach (string line in headerText)
+                // Build the string from the sections
+                stringBuilder.AppendLine(separator);
+                foreach (IEnumerable<string> lines in sections)
                 {
-                    // Header text
-                    stringBuilder.AppendLine($"|{line.PadRight(separatorLength)}|");
+                    foreach (string line in lines)
+                    {
+                        stringBuilder.AppendLine($"|{line.PadRight(separatorLength)}|");
+                        stringBuilder.AppendLine(separator);
+                    }
                 }
-                stringBuilder.AppendLine(separator);
-
-                // Type name
-                string infoObjectTypeLine = $"Type: {extraInfoType}";
-                stringBuilder.AppendLine($"|{infoObjectTypeLine.PadRight(separatorLength)}|");
-                stringBuilder.AppendLine(separator);
-
-                // Main text
-                foreach (string line in mainText)
-                {
-                    // Main text
-                    stringBuilder.AppendLine($"|{line.PadRight(separatorLength)}|");
-                }
-                stringBuilder.AppendLine(separator);
 
                 // Compile the log text
                 logMessage += $"\n{stringBuilder.ToString().Indent(indentSize, indentToken)}\n";
