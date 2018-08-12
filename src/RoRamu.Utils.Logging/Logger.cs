@@ -11,7 +11,7 @@
 
         public static LogLevel LogLevel { get; set; } = LogLevel.Info;
 
-        public static bool LogExtraInfo { get; set; } = true;
+        public static bool LogExtraInfo { get; set; } = false;
 
         private static Logger _defaultLogger = Logger.GetLogger<ConsoleLogger>();
         public static Logger Default
@@ -47,7 +47,7 @@
             T extraInfo,
             string callerName,
             string sourceFilePath,
-            int sourceLineNumber) where T : class;
+            int sourceLineNumber);
 
         public void Log<T>(
             LogLevel logLevel,
@@ -56,7 +56,6 @@
             [CallerMemberName] string callerName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
-            where T : class
         {
             if (logLevel >= LogLevel)
             {
@@ -65,7 +64,7 @@
                     this.HandleLog(
                         logLevel,
                         message,
-                        LogExtraInfo ? extraInfo : null,
+                        extraInfo,
                         callerName,
                         sourceFilePath,
                         sourceLineNumber);

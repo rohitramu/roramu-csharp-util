@@ -29,42 +29,62 @@
                 logMessage += $" {message}";
             }
 
-            if (extraInfo != null)
+            if (Logger.LogExtraInfo)
             {
+                // Get the name of the extraInfo object's type
+                string extraInfoType = typeof(T).FullName;
+
                 // Create the lines in the header text
                 string[] headerText = new string[]
                 {
-                    $"Call:   {callerName}()",
-                    $"File:   {sourceFilePath}",
-                    $"Line:   {sourceLineNumber}",
+                    $"Call: {callerName}()",
+                    $"File: {sourceFilePath}",
+                    $"Line: {sourceLineNumber}",
                 };
 
                 // Read the lines in the main text
                 IList<string> mainText = new List<string>();
-                using (StringReader reader = new StringReader(extraInfo.ToString()))
+                if (extraInfo != null)
                 {
-                    string line;
-                    while ((line = reader.ReadLine()) != null)
+                    using (StringReader reader = new StringReader(extraInfo.ToString()))
                     {
-                        mainText.Add(line);
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            mainText.Add(line);
+                        }
                     }
                 }
 
                 // Create a separator based on the longest line in the text
-                int separatorLength = Math.Max(
+                int separatorLength = new int[]
+                {
                     headerText.Select(line => line.Length).Max(), // header text width
-                    mainText.Select(line => line.Length).Max()); // main text width
+                    extraInfoType.Length, // type name width
+                    mainText.Select(line => line.Length).Max(), // main text width
+                }.Max();
 
+                // Create the separator
                 string separator = $"+{new string('-', separatorLength)}+";
 
+                // Create a string builder to construct the result
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.AppendLine(separator);
+
+                // Header text
                 foreach (string line in headerText)
                 {
                     // Header text
                     stringBuilder.AppendLine($"|{line.PadRight(separatorLength)}|");
                 }
                 stringBuilder.AppendLine(separator);
+
+                // Type name
+                string infoObjectTypeLine = $"Type: {extraInfoType}";
+                stringBuilder.AppendLine($"|{infoObjectTypeLine.PadRight(separatorLength)}|");
+                stringBuilder.AppendLine(separator);
+
+                // Main text
                 foreach (string line in mainText)
                 {
                     // Main text
