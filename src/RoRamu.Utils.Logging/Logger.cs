@@ -9,7 +9,9 @@
     {
         private static readonly ConcurrentDictionary<string, Logger> _loggerCache = new ConcurrentDictionary<string, Logger>();
 
-        public static LogLevel LogLevel { get; set; } = LogLevel.Info;
+        public static LogLevel GlobalLogLevel { get; set; } = LogLevel.Info;
+
+        public LogLevel LogLevel { get; set; } = LogLevel.Info;
 
         public static bool LogExtraInfo { get; set; } = false;
 
@@ -57,7 +59,7 @@
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
-            if (logLevel >= LogLevel)
+            if (logLevel >= GlobalLogLevel && logLevel >= this.LogLevel)
             {
                 Task.Run(() =>
                 {
