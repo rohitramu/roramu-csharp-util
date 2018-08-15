@@ -11,7 +11,7 @@
 
         public static LogLevel GlobalLogLevel { get; set; } = LogLevel.Info;
 
-        public LogLevel LogLevel { get; set; } = LogLevel.Info;
+        public LogLevel LogLevel { get; set; } = LogLevel.Debug;
 
         public static bool LogExtraInfo { get; set; } = false;
 
