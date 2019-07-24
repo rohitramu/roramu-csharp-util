@@ -52,7 +52,7 @@
 
             // Handle negative timespan
             string result = span < TimeSpan.Zero ? "-" : string.Empty;
-            result += string.Join(' ', stringParts);
+            result += string.Join(" ", stringParts);
 
             return result;
         }
