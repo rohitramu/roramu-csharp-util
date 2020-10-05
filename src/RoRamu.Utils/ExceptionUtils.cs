@@ -6,7 +6,7 @@
 
     public static class ExceptionUtils
     {
-        public static string ToJsonString(this Exception exception, bool includeStackTraceAndExceptionType = false)
+        public static string ToJsonString(this Exception exception, bool includeExceptionType = false, bool includeStackTrace = false)
         {
             if (exception == null)
             {
@@ -22,14 +22,14 @@
             }
 
             object obj;
-            if (includeStackTraceAndExceptionType)
+            if (includeExceptionType || includeStackTrace)
             {
                 obj = new
                 {
-                    type = exception.GetType().FullName,
+                    type = includeExceptionType ? exception.GetType().FullName : null,
                     message = exception.Message,
                     innerMessages = messagesList,
-                    stackTrace = exception.StackTrace.Replace("\r", string.Empty).Split('\n'),
+                    stackTrace = includeStackTrace ? exception.StackTrace.Replace("\r", string.Empty).Split('\n') : null,
                 };
             }
             else
