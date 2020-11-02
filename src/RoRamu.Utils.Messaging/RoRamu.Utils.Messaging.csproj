@@ -4,4 +4,8 @@
     <ProjectReference Include="..\RoRamu.Utils\RoRamu.Utils.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
 </Project>
