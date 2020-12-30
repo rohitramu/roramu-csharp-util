@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text;
 
     /// <summary>
     /// Utility methods for working with string objects.
@@ -11,18 +12,13 @@
     public static class StringUtils
     {
         /// <summary>
-        /// The default indent string.
-        /// </summary>
-        public const string DefaultIndentToken = "    ";
-
-        /// <summary>
         /// Indents a string by the desired amount.
         /// </summary>
-        /// <param name="stringToIndent">The string to indent</param>
-        /// <param name="indentLevel">The desired indentation level</param>
-        /// <param name="indentToken">The string which represents a single indent (defaults to <see cref="DefaultIndentToken"/>)</param>
+        /// <param name="stringToIndent">The string to indent.</param>
+        /// <param name="indentLevel">The desired indentation level.</param>
+        /// <param name="indentToken">The string which represents a single indent.</param>
         /// <returns>The indented string.</returns>
-        public static string Indent(this string stringToIndent, int indentLevel = 1, string indentToken = DefaultIndentToken)
+        public static string Indent(this string stringToIndent, int indentLevel = 1, string indentToken = "    ")
         {
             if (stringToIndent == null)
             {
@@ -61,15 +57,21 @@
         /// <param name="indentLevel">The desired level of indentation</param>
         /// <param name="indentToken">The string which represents an indent level of 1</param>
         /// <returns>The string to which a line of text should be appended to produce the desired level of indentation.</returns>
-        public static string GetIndentPrefix(int indentLevel, string indentToken = DefaultIndentToken)
+        public static string GetIndentPrefix(int indentLevel, string indentToken = "    ")
         {
-            if (indentLevel > 0)
-            {
-                return string.Join(string.Empty, Enumerable.Repeat(indentToken, indentLevel));
-            }
-            else if (indentLevel == 0)
+            if (indentLevel == 0)
             {
                 return string.Empty;
+            }
+            else if (indentLevel > 0)
+            {
+                StringBuilder sb = new StringBuilder(indentLevel * indentToken.Length);
+                for (int i = 0; i < indentLevel; i++)
+                {
+                    sb.Append(indentToken);
+                }
+
+                return sb.ToString();
             }
             else
             {

@@ -5,7 +5,7 @@
     using System.Linq;
 
     /// <summary>
-    /// Extension methods for <see cref="RoRamu.Utils.Messaging.Message" /> objects.
+    /// Extension methods for <see cref="Message" /> objects.
     /// </summary>
     public static class MessageExtensions
     {
@@ -120,8 +120,10 @@
         /// </summary>
         /// <param name="message">The request message.</param>
         /// <param name="body">The response body.</param>
-        /// <param name="isErrorResponse">True if this is a response indicating that there was an
-        /// error in processing the request message, otherwise false.</param>
+        /// <param name="isErrorResponse">
+        /// True if this is a response indicating that there was an error in processing the request
+        /// message, otherwise false.
+        /// </param>
         /// <returns>The response message.</returns>
         public static Response CreateResponse(this Message message, object body, bool isErrorResponse = false)
         {
