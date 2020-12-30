@@ -16,7 +16,7 @@
         /// Whether or not to log extra details.
         /// </summary>
         /// <value></value>
-        public static bool LogExtraInfo { get; set; } = false;
+        public bool LogExtraInfo { get; set; } = false;
 
         private static readonly int LongestLogLevelName = Enum.GetNames(typeof(LogLevel)).Select(name => name.Length).Max();
 
@@ -39,7 +39,7 @@
                 logMessage += $" {message}";
             }
 
-            if (ConsoleLogger.LogExtraInfo)
+            if (this.LogExtraInfo)
             {
                 IList<IEnumerable<string>> sections = new List<IEnumerable<string>>
                 {
