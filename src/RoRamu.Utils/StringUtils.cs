@@ -5,6 +5,9 @@
     using System.IO;
     using System.Linq;
 
+    /// <summary>
+    /// Utility methods for working with string objects.
+    /// </summary>
     public static class StringUtils
     {
         /// <summary>

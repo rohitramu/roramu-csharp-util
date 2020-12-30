@@ -4,8 +4,18 @@
     using System.Collections.Generic;
     using Newtonsoft.Json;
 
+    /// <summary>
+    /// Utility methods to handle exception objects.
+    /// </summary>
     public static class ExceptionUtils
     {
+        /// <summary>
+        /// Serializes an exception to a JSON string suitable for error messages.
+        /// </summary>
+        /// <param name="exception">The exception to serialize.</param>
+        /// <param name="includeExceptionType">Includes the type name of the exception.</param>
+        /// <param name="includeStackTrace">Includes the stack trace in the resulting string.</param>
+        /// <returns>The JSON string representation of the given exception object.</returns>
         public static string ToJsonString(this Exception exception, bool includeExceptionType = false, bool includeStackTrace = false)
         {
             if (exception == null)
@@ -44,31 +54,6 @@
             string result = JsonConvert.SerializeObject(obj);
 
             return result;
-        }
-
-        public static void WrapSafely(Action action, Action<Exception> onError = null)
-        {
-            try
-            {
-                action?.Invoke();
-            }
-            catch (Exception ex)
-            {
-                onError?.Invoke(ex);
-            }
-        }
-
-        public static T WrapSafely<T>(Func<T> func, Action<Exception> onError = null)
-        {
-            try
-            {
-                return func();
-            }
-            catch (Exception ex)
-            {
-                onError?.Invoke(ex);
-                return default(T);
-            }
         }
     }
 }

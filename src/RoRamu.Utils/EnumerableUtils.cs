@@ -20,13 +20,22 @@
             yield return obj;
         }
 
-        public static bool TryRemove<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, TKey key, TValue value)
+        /// <summary>
+        /// Tries to remove a given key-value pair from a dictionary.
+        /// </summary>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key in the key-value pair.</param>
+        /// <param name="value">The value in the key-value pair.</param>
+        /// <typeparam name="TKey">The type of the key in the key-value pair.</typeparam>
+        /// <typeparam name="TValue">The type of the value in the key-value pair.</typeparam>
+        /// <returns></returns>
+        public static bool TryRemove<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
             if (dictionary == null)
             {
                 throw new ArgumentNullException(nameof(dictionary));
             }
-            
+
             if (!(dictionary is ICollection<KeyValuePair<TKey, TValue>> collection))
             {
                 throw new ArgumentException($"Unable to cast {nameof(dictionary)} into an ICollection<KeyValuePair<{typeof(TKey).Name}, {typeof(TValue).Name}>>", nameof(dictionary));
@@ -39,9 +48,10 @@
         /// <summary>
         /// Creates a comparer for a type from a lambda expression.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="equalsFunction"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">The type of the objects to be compared.</typeparam>
+        /// <param name="equalsFunction">The function which checks whether two objects of the given type are equal.</param>
+        /// <param name="getHashCodeFunction">The function which generates a hash code for the given type.</param>
+        /// <returns>An equality comparer which uses the given functions to determine equality.</returns>
         public static IEqualityComparer<T> CreateEqualityComparer<T>(Func<T, T, bool> equalsFunction, Func<T, int> getHashCodeFunction = null)
         {
             return new GenericEqualityComparer<T>(equalsFunction, getHashCodeFunction);
