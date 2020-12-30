@@ -27,18 +27,10 @@
         /// </summary>
         public LogLevel LogLevel { get; set; } = LogLevel.Debug;
 
-        private static Logger _defaultLogger = Logger.GetLogger<ConsoleLogger>();
         /// <summary>
         /// The default logger (i.e. <see cref="ConsoleLogger"/>).
         /// </summary>
-        public static Logger Default
-        {
-            get => _defaultLogger;
-            set
-            {
-                _defaultLogger = value ?? throw new ArgumentNullException(nameof(value));
-            }
-        }
+        public static ConsoleLogger Default => Logger.GetLogger<ConsoleLogger>();
 
         /// <summary>
         /// Gets an instance of the logger.
