@@ -14,7 +14,15 @@
     /// </summary>
     public abstract class Logger
     {
-        private static readonly ConcurrentDictionary<string, Logger> _loggerCache = new ConcurrentDictionary<string, Logger>();
+        /// <summary>
+        /// Provides a way to enable or disable logging globally (across all logger instances).
+        /// </summary>
+        public static bool IsLoggingEnabled { get; set; } = true;
+
+        /// <summary>
+        /// Whether or not this logger will emit logs.
+        /// </summary>
+        public bool IsEnabled { get; set; } = true;
 
         /// <summary>
         /// The minimum severity to log across all loggers.
@@ -31,6 +39,14 @@
         /// The default logger (i.e. <see cref="ConsoleLogger"/>).
         /// </summary>
         public static ConsoleLogger Default => Logger.GetLogger<ConsoleLogger>();
+
+        /// <summary>
+        /// Stores the logger instances in the cache.
+        /// </summary>
+        /// <remarks>
+        /// This is a mapping of Logger assembly name to Logger type, so it can be retrieved quickly.
+        /// </remarks>
+        private static readonly ConcurrentDictionary<string, Logger> _loggerCache = new ConcurrentDictionary<string, Logger>();
 
         /// <summary>
         /// Gets an instance of the logger.
@@ -84,7 +100,11 @@
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
-            if (logLevel >= GlobalLogLevel && logLevel >= this.LogLevel)
+            if (
+                Logger.IsLoggingEnabled && // Check that logging hasn't been disabled globally
+                this.IsEnabled && // Check that this particular logger instance is enabled
+                logLevel >= Logger.GlobalLogLevel && // Check that the log level is higher than the globally set log level
+                logLevel >= this.LogLevel) // Check that the log level is higher than the level set for this logger instance
             {
                 Task.Run(() =>
                 {

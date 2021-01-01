@@ -11,7 +11,7 @@
         Debug = 0,
 
         ///<summary>
-        /// Informational.  Logs at this level would be useful for monitoring behavior and performance.
+        /// Informational.  Logs at this level would typically be useful for monitoring behavior and performance.
         ///</summary>
         Info = 1,
 
@@ -25,10 +25,5 @@
         /// Error.  A known bad state which should be rectified.
         ///</summary>
         Error = 3,
-
-        ///<summary>
-        /// None.  Logs nothing.
-        ///</summary>
-        None = 4,
     }
 }
