@@ -42,7 +42,7 @@
             if (this.Summary != null)
             {
                 resultBuilder.AppendLine(LinePrefix + @"<summary>");
-                resultBuilder.AppendLine(CSharpDocumentationComment.MakeCommentString(this.Summary.Indent()));
+                resultBuilder.AppendLine(CSharpDocumentationComment.MakeCommentString(this.Summary));
                 resultBuilder.AppendLine(LinePrefix + @"</summary>");
             }
 

@@ -76,11 +76,11 @@
             this.Parameters = parameters ?? Array.Empty<CSharpParameter>();
             this.Body = body ?? throw new ArgumentNullException(nameof(body));
             this.DocumentationComment = this.Parameters.Any()
-                ? new CSharpDocumentationComment(documentationComment.Summary, $"{this.GetParametersDocumentationComment(this.Parameters)}\n{documentationComment.RawNotes}")
+                ? new CSharpDocumentationComment(documentationComment.Summary, $"{this.GetParameterDocumentationComment(this.Parameters)}\n{documentationComment.RawNotes}")
                 : documentationComment;
         }
 
-        private string GetParametersDocumentationComment(IEnumerable<CSharpParameter> parameters)
+        private string GetParameterDocumentationComment(IEnumerable<CSharpParameter> parameters)
         {
             if (parameters == null)
             {
