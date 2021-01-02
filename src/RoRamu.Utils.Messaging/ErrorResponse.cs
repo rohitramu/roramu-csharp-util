@@ -1,6 +1,7 @@
 ﻿namespace RoRamu.Utils.Messaging
 {
     using System;
+    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using RoRamu.Utils;
 
@@ -34,10 +35,12 @@
             bool includeStackTrace = false)
             : base(
                   requestId,
-                  new JRaw(error == null
+                  body: new JRaw(error == null
                     ? throw new ArgumentNullException(nameof(error))
-                    : error.ToJsonString(includeExceptionType: true, includeStackTrace: includeStackTrace)),
-                  true)
+                    : JsonConvert.SerializeObject(
+                        value: error.ToSerializableExceptionInfo(includeExceptionType: true, includeStackTrace: includeStackTrace),
+                        formatting: Formatting.Indented)),
+                  isError: true)
         {
         }
 
