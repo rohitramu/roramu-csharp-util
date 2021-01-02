@@ -55,7 +55,14 @@
         /// <param name="parameters">The parameters which need to be provided as inputs to this method.</param>
         /// <param name="body">The method body.</param>
         /// <param name="documentationComment">The method's documentation comment.  The parameters' documentation will automatically be included in this comment.</param>
-        public CSharpMethod(string name, CSharpAccessModifier accessModifier, bool @isOverride, Type returnType, IEnumerable<CSharpParameter> parameters, string body, CSharpDocumentationComment documentationComment)
+        public CSharpMethod(
+            string name,
+            CSharpAccessModifier accessModifier,
+            bool @isOverride,
+            Type returnType,
+            IEnumerable<CSharpParameter> parameters,
+            string body,
+            CSharpDocumentationComment documentationComment)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -68,7 +75,7 @@
             this.ReturnType = returnType ?? throw new ArgumentNullException(nameof(returnType));
             this.Parameters = parameters ?? Array.Empty<CSharpParameter>();
             this.Body = body ?? throw new ArgumentNullException(nameof(body));
-            this.DocumentationComment = parameters.Any()
+            this.DocumentationComment = this.Parameters.Any()
                 ? new CSharpDocumentationComment(documentationComment.Summary, $"{this.GetParametersDocumentationComment(this.Parameters)}\n{documentationComment.RawNotes}")
                 : documentationComment;
         }
