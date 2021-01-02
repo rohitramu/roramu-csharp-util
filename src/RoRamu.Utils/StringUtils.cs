@@ -58,24 +58,31 @@
         /// <returns>The string to which a line of text should be appended to produce the desired level of indentation.</returns>
         public static string GetIndentPrefix(int indentLevel = 1, string indentToken = "    ")
         {
+            if (indentLevel < 0)
+            {
+                throw new ArgumentException("Indent level must be greater than or equal to 0", nameof(indentLevel));
+            }
+
+            // No indentation
             if (indentLevel == 0)
             {
                 return string.Empty;
             }
-            else if (indentLevel > 0)
-            {
-                StringBuilder sb = new StringBuilder(indentLevel * indentToken.Length);
-                for (int i = 0; i < indentLevel; i++)
-                {
-                    sb.Append(indentToken);
-                }
 
-                return sb.ToString();
-            }
-            else
+            // Only 1 level of indentation (optimization to avoid creating an unnecessary StringBuilder)
+            if (indentLevel == 1)
             {
-                throw new ArgumentException("Indent level must be greater than or equal to 0", nameof(indentLevel));
+                return indentToken;
             }
+
+            // Multiple levels of indentation
+            StringBuilder sb = new StringBuilder(indentLevel * indentToken.Length);
+            for (int i = 0; i < indentLevel; i++)
+            {
+                sb.Append(indentToken);
+            }
+
+            return sb.ToString();
         }
     }
 }

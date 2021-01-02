@@ -86,7 +86,7 @@
             }
             catch (JsonSerializationException)
             {
-                result = default(T);
+                result = default;
                 return false;
             }
         }

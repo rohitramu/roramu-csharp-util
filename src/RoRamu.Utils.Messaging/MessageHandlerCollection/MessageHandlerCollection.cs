@@ -10,7 +10,7 @@ namespace RoRamu.Utils.Messaging
         /// <summary>
         /// The default message handler to use if one hasn't been mapped for the provided message type.
         /// </summary>
-        private static MessageHandlerCollectionBuilder.HandlerDelegate DefaultFallbackMessageHandler = (message) =>
+        private static MessageHandlerCollectionBuilder.HandlerDelegate DefaultFallbackMessageHandler { get; } = (message) =>
         {
             throw new UnknownMessageTypeException(message.Type);
         };

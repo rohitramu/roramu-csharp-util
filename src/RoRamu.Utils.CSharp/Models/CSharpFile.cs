@@ -101,10 +101,10 @@
             }
 
             // End body
-            resultBuilder.AppendLine("}");
+            resultBuilder.Append("}");
 
             // Compile and return result
-            string result = resultBuilder.ToString().Trim();
+            string result = resultBuilder.ToString();
             return result;
         }
     }

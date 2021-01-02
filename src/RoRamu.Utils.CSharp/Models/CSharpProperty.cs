@@ -78,10 +78,10 @@
             }
 
             // Add the property definition itself
-            resultBuilder.AppendLine($"{this.AccessModifier.ToCSharpString()} {this.Type.FullName} {CSharpNamingUtils.SanitizeIdentifier(this.Name)} {{ get; set; }}");
+            resultBuilder.Append($"{this.AccessModifier.ToCSharpString()} {this.Type.FullName} {CSharpNamingUtils.SanitizeIdentifier(this.Name)} {{ get; set; }}");
 
             // Compile the string
-            string result = resultBuilder.ToString().Trim();
+            string result = resultBuilder.ToString();
 
             return result;
         }

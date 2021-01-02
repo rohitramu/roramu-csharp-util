@@ -41,6 +41,11 @@
         public IEnumerable<CSharpProperty> Properties { get; }
 
         /// <summary>
+        /// The constructors in this class.
+        /// </summary>
+        public IEnumerable<CSharpClassConstructor> Constructors { get; }
+
+        /// <summary>
         /// The methods in this class.
         /// </summary>
         public IEnumerable<CSharpMethod> Methods { get; }
@@ -65,10 +70,10 @@
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                throw new ArgumentException("C# Class name cannot be null or whitespace", nameof(name));
+                throw new ArgumentException("Class name cannot be null or whitespace", nameof(name));
             }
 
-            if (baseType != null && baseType.Trim() == string.Empty)
+            if (baseType != null && string.IsNullOrWhiteSpace(baseType))
             {
                 throw new ArgumentException("Base type name cannot be empty.  Set it to null to remove the base type.", nameof(baseType));
             }
@@ -91,18 +96,18 @@
         /// <returns>The string representation of this class.</returns>
         public override string ToString()
         {
-            StringBuilder resultBuilder = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
 
             // Documentation comment
             if (this.DocumentationComment != null)
             {
-                resultBuilder.AppendLine(this.DocumentationComment.ToString());
+                sb.AppendLine(this.DocumentationComment.ToString());
             }
 
             // Attributes
             foreach (CSharpAttribute attribute in this.Attributes)
             {
-                resultBuilder.AppendLine(attribute.ToString());
+                sb.AppendLine(attribute.ToString());
             }
 
             // Add the first line of the class definition (access modifiers, class name, inheritance)
@@ -111,10 +116,10 @@
                 : this.BaseType.SingleObjectAsEnumerable().Concat(this.Interfaces);
             string inheritance = parents.Any() ? $" : {string.Join(", ", parents)}" : string.Empty;
             string nameLine = $"{AccessModifier.ToCSharpString()} class {this.Name}{inheritance}";
-            resultBuilder.AppendLine(nameLine);
+            sb.AppendLine(nameLine);
 
             // Start body
-            resultBuilder.AppendLine("{");
+            sb.AppendLine("{");
 
             // Properties
             bool isFirst = true;
@@ -127,20 +132,20 @@
                 }
                 else
                 {
-                    resultBuilder.AppendLine();
+                    sb.AppendLine();
                 }
 
-                resultBuilder.AppendLine(property.ToString().Indent());
+                sb.AppendLine(property.ToString().Indent());
             }
 
             if (this.Properties.Any() && this.Methods.Any())
             {
-                resultBuilder.AppendLine();
+                sb.AppendLine();
             }
 
-            // Methods
+            // Constructors and methods
             isFirst = true;
-            foreach (CSharpMethod method in this.Methods)
+            foreach (CSharpMethod method in this.Constructors.Concat(this.Methods))
             {
                 // Add a new line except for the first property
                 if (isFirst)
@@ -149,17 +154,17 @@
                 }
                 else
                 {
-                    resultBuilder.AppendLine();
+                    sb.AppendLine();
                 }
 
-                resultBuilder.AppendLine(method.ToString().Indent());
+                sb.AppendLine(method.ToString().Indent());
             }
 
             // End body
-            resultBuilder.AppendLine("}");
+            sb.Append("}");
 
             // Compile and return result
-            string result = resultBuilder.ToString().Trim();
+            string result = sb.ToString();
             return result;
         }
     }

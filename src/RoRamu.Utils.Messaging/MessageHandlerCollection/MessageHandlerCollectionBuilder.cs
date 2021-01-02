@@ -31,12 +31,7 @@ namespace RoRamu.Utils.Messaging
         /// <param name="messageHandler">The default handler implementation.</param>
         public MessageHandlerCollectionBuilder SetDefaultHandler(HandlerDelegate messageHandler)
         {
-            if (messageHandler == null)
-            {
-                throw new ArgumentNullException(nameof(messageHandler));
-            }
-
-            this.MessageHandlerCollection.FallbackMessageHandler = messageHandler;
+            this.MessageHandlerCollection.FallbackMessageHandler = messageHandler ?? throw new ArgumentNullException(nameof(messageHandler));
 
             return this;
         }
@@ -66,12 +61,7 @@ namespace RoRamu.Utils.Messaging
                 throw new ArgumentNullException(nameof(messageType));
             }
 
-            if (messageHandler == null)
-            {
-                throw new ArgumentNullException(nameof(messageHandler));
-            }
-
-            this.MessageHandlerCollection[messageType] = messageHandler;
+            this.MessageHandlerCollection[messageType] = messageHandler ?? throw new ArgumentNullException(nameof(messageHandler));
 
             return this;
         }

@@ -94,7 +94,7 @@
                 }
 
                 // Compile the log text
-                logMessage += $"\n{stringBuilder.ToString().Indent(indentSize, indentToken)}\n";
+                logMessage += $"{Environment.NewLine}{stringBuilder.ToString().Indent(indentSize, indentToken)}{Environment.NewLine}";
             }
 
             Console.WriteLine(logMessage);

@@ -36,23 +36,31 @@
         /// <returns>The string representation of this C# documentation comment.</returns>
         public override string ToString()
         {
-            StringBuilder resultBuilder = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
 
             // Summary
             if (this.Summary != null)
             {
-                resultBuilder.AppendLine(LinePrefix + @"<summary>");
-                resultBuilder.AppendLine(CSharpDocumentationComment.MakeCommentString(this.Summary));
-                resultBuilder.AppendLine(LinePrefix + @"</summary>");
+                if (sb.Length > 0)
+                {
+                    sb.AppendLine();
+                }
+                sb.AppendLine(LinePrefix + @"<summary>");
+                sb.AppendLine(CSharpDocumentationComment.MakeCommentString(this.Summary));
+                sb.Append(LinePrefix + @"</summary>");
             }
 
             // Misc
             if (this.RawNotes != null)
             {
-                resultBuilder.AppendLine(CSharpDocumentationComment.MakeCommentString(this.RawNotes));
+                if (sb.Length > 0)
+                {
+                    sb.AppendLine();
+                }
+                sb.Append(CSharpDocumentationComment.MakeCommentString(this.RawNotes));
             }
 
-            return resultBuilder.ToString().Trim();
+            return sb.ToString();
         }
 
         private static string MakeCommentString(string str)
