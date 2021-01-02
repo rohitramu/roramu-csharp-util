@@ -1,7 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="Humanizer.Core" />
     <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="Pluralize.NET" />
   </ItemGroup>
 
 </Project>

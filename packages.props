@@ -1,7 +1,10 @@
 <Project>
 
     <ItemGroup>
+        <PackageReference Update="Humanizer.Core" Version="2.8.26" />
+        <PackageReference Update="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" />
         <PackageReference Update="Newtonsoft.Json" Version="11.0.2" />
+        <PackageReference Update="Pluralize.NET" Version="1.0.2" />
     </ItemGroup>
 
 </Project>
