@@ -61,9 +61,10 @@
             StringBuilder resultBuilder = new StringBuilder();
 
             // File header
-            if (this.FileHeader != null)
+            string headerText = this.FileHeader?.ToString();
+            if (!string.IsNullOrWhiteSpace(headerText))
             {
-                resultBuilder.AppendLine(this.FileHeader.ToString());
+                resultBuilder.AppendLine(headerText);
                 resultBuilder.AppendLine();
             }
 

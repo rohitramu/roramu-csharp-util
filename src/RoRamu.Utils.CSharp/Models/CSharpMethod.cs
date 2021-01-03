@@ -95,12 +95,22 @@
             this.ReturnType = returnType;
             this.Parameters = parameters ?? Array.Empty<CSharpParameter>();
             this.Body = body ?? throw new ArgumentNullException(nameof(body));
-            this.DocumentationComment = this.Parameters.Any()
-                ? new CSharpDocumentationComment(documentationComment.Summary, $"{this.GetParameterDocumentationComment(this.Parameters)}{Environment.NewLine}{documentationComment.RawNotes}")
-                : documentationComment;
+            this.DocumentationComment = documentationComment;
+
+            // Add parameter descriptions into the documentation comment
+            string parametersDocumentationComment = this.GetParametersDocumentationComment(this.Parameters);
+            if (!string.IsNullOrWhiteSpace(parametersDocumentationComment))
+            {
+                if (this.DocumentationComment?.RawNotes != null)
+                {
+                    parametersDocumentationComment += $"{Environment.NewLine}{this.DocumentationComment.RawNotes}";
+                }
+
+                this.DocumentationComment = new CSharpDocumentationComment(this.DocumentationComment?.Summary, parametersDocumentationComment);
+            }
         }
 
-        private string GetParameterDocumentationComment(IEnumerable<CSharpParameter> parameters)
+        private string GetParametersDocumentationComment(IEnumerable<CSharpParameter> parameters)
         {
             if (parameters == null)
             {
@@ -110,7 +120,10 @@
             StringBuilder sb = new StringBuilder();
             foreach (CSharpParameter parameter in parameters)
             {
-                sb.AppendLine($"<param name=\"{parameter.Name}\">{parameter.Description}</param>");
+                if (!string.IsNullOrEmpty(parameter.Description))
+                {
+                    sb.AppendLine($"<param name=\"{parameter.Name}\">{parameter.Description}</param>");
+                }
             }
 
             return sb.ToString();

@@ -66,9 +66,10 @@
             StringBuilder resultBuilder = new StringBuilder();
 
             // Add the documentation comment
-            if (this.DocumentationComment != null)
+            string docComment = this.DocumentationComment?.ToString();
+            if (!string.IsNullOrWhiteSpace(docComment))
             {
-                resultBuilder.AppendLine(this.DocumentationComment.ToString());
+                resultBuilder.AppendLine(docComment);
             }
 
             // Loop through attributes

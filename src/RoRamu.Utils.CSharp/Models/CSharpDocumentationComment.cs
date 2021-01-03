@@ -41,10 +41,6 @@
             // Summary
             if (this.Summary != null)
             {
-                if (sb.Length > 0)
-                {
-                    sb.AppendLine();
-                }
                 sb.AppendLine(LinePrefix + @"<summary>");
                 sb.AppendLine(CSharpDocumentationComment.MakeCommentString(this.Summary));
                 sb.Append(LinePrefix + @"</summary>");

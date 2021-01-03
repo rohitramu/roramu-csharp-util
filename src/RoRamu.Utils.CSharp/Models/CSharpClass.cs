@@ -99,9 +99,10 @@
             StringBuilder sb = new StringBuilder();
 
             // Documentation comment
-            if (this.DocumentationComment != null)
+            string docComment = this.DocumentationComment?.ToString();
+            if (string.IsNullOrWhiteSpace(docComment))
             {
-                sb.AppendLine(this.DocumentationComment.ToString());
+                sb.AppendLine(docComment);
             }
 
             // Attributes
