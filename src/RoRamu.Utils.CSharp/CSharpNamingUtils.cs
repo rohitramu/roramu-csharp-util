@@ -9,24 +9,19 @@ namespace RoRamu.Utils.CSharp
     public static class CSharpNamingUtils
     {
         /// <summary>
-        /// Checks whether the provided string is a reserved C# keyword.
+        /// Checks whether the provided string is a valid C# identifier.
         /// </summary>
-        /// <param name="identifier">The identifier to check</param>
-        /// <returns>True if the string is a reserved keyword, otherwise false.</returns>
+        /// <param name="identifier">The string to check.</param>
+        /// <returns>True if the string is a valid identifier, otherwise false.</returns>
         public static bool IsValidIdentifier(string identifier)
         {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
             return SyntaxFacts.IsValidIdentifier(identifier);
         }
 
         /// <summary>
         /// Sanitizes a C# string if required, otherwise returns the original string.
         /// </summary>
-        /// <param name="identifier">The identifier to sanitize</param>
+        /// <param name="identifier">The identifier to sanitize.</param>
         /// <returns>The sanitized C# keyword which is safe to use as an identifier.</returns>
         public static string SanitizeIdentifier(string identifier)
         {
