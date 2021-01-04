@@ -45,7 +45,7 @@ namespace RoRamu.Utils.CSharp
         /// </summary>
         /// <param name="type">The type</param>
         /// <returns>The C# string</returns>
-        public static string ToCSharpString(Type type)
+        public static string ToCSharpString(this Type type)
         {
             if (type == null)
             {
