@@ -66,12 +66,20 @@ namespace RoRamu.Utils.CSharp
                 // Get the full name of the type without it's generic arguments (i.e. everything before the backtick)
                 string typeNameWithoutArguments = tempType.Name.Substring(0, tempType.Name.IndexOf('`'));
 
-                // Get the type arguments
-                IEnumerable<string> typeArguments = tempType.GenericTypeArguments.Select(typeArgument => typeArgument.GetCSharpName());
-                string typeArgumentsString = string.Join(", ", typeArguments);
+                // If this is a definition and not the actual type, just return the name without the type parameters
+                if (tempType.IsGenericTypeDefinition)
+                {
+                    typeName = typeNameWithoutArguments;
+                }
+                else
+                {
+                    // Get the type arguments
+                    IEnumerable<string> typeArguments = tempType.GenericTypeArguments.Select(typeArgument => typeArgument.GetCSharpName());
+                    string typeArgumentsString = string.Join(", ", typeArguments);
 
-                // Create the full type name with arguments
-                typeName = $"{typeNameWithoutArguments}<{typeArgumentsString}>";
+                    // Create the full type name with arguments
+                    typeName = $"{typeNameWithoutArguments}<{typeArgumentsString}>";
+                }
             }
 
             // Check if this type is nested inside another type
