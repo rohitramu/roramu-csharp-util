@@ -49,7 +49,7 @@ namespace RoRamu.Utils
                 current = current.InnerException;
             }
 
-            this.Type = includeExceptionType ? exception.GetType().FullName : null;
+            this.Type = includeExceptionType ? exception.GetType().Name : null;
             this.Message = exception.Message;
             this.InnerMessages = messagesList;
             this.StackTrace = includeStackTrace ? exception.StackTrace.Replace("\r", string.Empty).Split('\n') : null;

@@ -5,7 +5,7 @@
     using System.IO;
     using System.Linq;
     using System.Text;
-    using RoRamu.Utils;
+    using RoRamu.Utils.CSharp;
 
     /// <summary>
     /// A console logger.
@@ -56,7 +56,7 @@
                 if (extraInfo != null)
                 {
                     // Get the name of the extraInfo object's type
-                    sections.Add(extraInfo.GetType().FullName.SingleObjectAsEnumerable());
+                    sections.Add(extraInfo.GetType().GetCSharpName().SingleObjectAsEnumerable());
 
                     IList<string> mainText = new List<string>();
                     using (StringReader reader = new StringReader(extraInfo.ToString()))
