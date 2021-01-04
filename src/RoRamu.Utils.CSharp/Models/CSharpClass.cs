@@ -73,6 +73,7 @@
             IEnumerable<string> interfaces,
             IEnumerable<CSharpAttribute> attributes,
             IEnumerable<CSharpProperty> properties,
+            IEnumerable<CSharpClassConstructor> constructors,
             IEnumerable<CSharpMethod> methods,
             CSharpDocumentationComment documentationComment)
         {
@@ -94,6 +95,7 @@
                 : new HashSet<string>(interfaces);
             this.Attributes = attributes ?? Array.Empty<CSharpAttribute>();
             this.Properties = properties ?? Array.Empty<CSharpProperty>();
+            this.Constructors = constructors ?? Array.Empty<CSharpClassConstructor>();
             this.Methods = methods ?? Array.Empty<CSharpMethod>();
             this.DocumentationComment = documentationComment;
         }
