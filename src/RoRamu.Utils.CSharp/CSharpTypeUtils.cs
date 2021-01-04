@@ -43,9 +43,11 @@ namespace RoRamu.Utils.CSharp
         /// <summary>
         /// Converts a type to a C# string that can be compiled in code.
         /// </summary>
-        /// <param name="type">The type</param>
+        /// <param name="type">The type.</param>
+        /// <param name="identifierOnly">Omits any type parameters, array indicators or enclosing type.</param>
+        /// <param name="includeNamespace">Includes the namespace in the name.</param>
         /// <returns>The C# string</returns>
-        public static string GetCSharpName(this Type type)
+        public static string GetCSharpName(this Type type, bool identifierOnly = false, bool includeNamespace = true)
         {
             if (type == null)
             {
@@ -67,7 +69,7 @@ namespace RoRamu.Utils.CSharp
                 string typeNameWithoutArguments = tempType.Name.Substring(0, tempType.Name.IndexOf('`'));
 
                 // If this is a definition and not the actual type, just return the name without the type parameters
-                if (tempType.IsGenericTypeDefinition)
+                if (identifierOnly)
                 {
                     typeName = typeNameWithoutArguments;
                 }
@@ -83,19 +85,19 @@ namespace RoRamu.Utils.CSharp
             }
 
             // Check if this type is nested inside another type
-            if (tempType.DeclaringType != null)
+            if (!identifierOnly && tempType.DeclaringType != null)
             {
                 // Prepend the declaring type
                 typeName = $"{tempType.DeclaringType.GetCSharpName()}.{typeName}";
             }
-            else if (!string.IsNullOrEmpty(tempType.Namespace))
+            else if (includeNamespace && !string.IsNullOrEmpty(tempType.Namespace))
             {
                 // Add the namespace
                 typeName = $"{tempType.Namespace}.{typeName}";
             }
 
             // Add the array brackets back into the type name
-            while (arrayDimensions > 0)
+            while (!identifierOnly && arrayDimensions > 0)
             {
                 typeName += "[]";
                 arrayDimensions--;

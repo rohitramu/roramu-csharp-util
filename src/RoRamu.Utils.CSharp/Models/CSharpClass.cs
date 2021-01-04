@@ -111,7 +111,7 @@
 
             // Documentation comment
             string docComment = this.DocumentationComment?.ToString();
-            if (string.IsNullOrWhiteSpace(docComment))
+            if (!string.IsNullOrWhiteSpace(docComment))
             {
                 sb.AppendLine(docComment);
             }

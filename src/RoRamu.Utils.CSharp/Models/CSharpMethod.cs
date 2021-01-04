@@ -101,7 +101,7 @@
             string parametersDocumentationComment = this.GetParametersDocumentationComment(this.Parameters);
             if (!string.IsNullOrWhiteSpace(parametersDocumentationComment))
             {
-                if (this.DocumentationComment?.RawNotes != null)
+                if (!string.IsNullOrWhiteSpace(this.DocumentationComment?.RawNotes))
                 {
                     parametersDocumentationComment += $"{Environment.NewLine}{this.DocumentationComment.RawNotes}";
                 }
@@ -117,13 +117,26 @@
                 throw new ArgumentNullException(nameof(parameters));
             }
 
+            if (!parameters.Any())
+            {
+                return null;
+            }
+
             StringBuilder sb = new StringBuilder();
+            bool first = true;
             foreach (CSharpParameter parameter in parameters)
             {
                 if (!string.IsNullOrEmpty(parameter.Description))
                 {
-                    sb.AppendLine($"<param name=\"{parameter.Name}\">{parameter.Description}</param>");
+                    if (!first)
+                    {
+                        sb.AppendLine();
+                    }
+
+                    sb.Append($"<param name=\"{parameter.Name}\">{parameter.Description}</param>");
                 }
+
+                first = false;
             }
 
             return sb.ToString();
@@ -179,7 +192,7 @@
                         sb.AppendLine();
                         sb.Append(StringUtils.GetIndentPrefix());
                     }
-                    else
+                    else if (!isFirst)
                     {
                         sb.Append(' ');
                     }
