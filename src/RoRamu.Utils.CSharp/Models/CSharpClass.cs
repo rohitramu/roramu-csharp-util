@@ -64,6 +64,7 @@
         /// <param name="interfaces">The interfaces that this class implements.</param>
         /// <param name="attributes">The attributes on this class.</param>
         /// <param name="properties">The properties in this class.</param>
+        /// <param name="constructors">The constructor methods for this class.</param>
         /// <param name="methods">The methods in this class.</param>
         /// <param name="documentationComment">The documentation comment on this class.</param>
         public CSharpClass(

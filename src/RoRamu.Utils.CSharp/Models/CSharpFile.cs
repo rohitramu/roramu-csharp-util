@@ -75,9 +75,12 @@
             resultBuilder.AppendLine("{");
 
             // Usings
-            foreach (string @using in this.Usings)
+            if (this.Usings.Any())
             {
-                resultBuilder.AppendLine($"using {@using};".Indent());
+                foreach (string @using in this.Usings)
+                {
+                    resultBuilder.AppendLine($"using {@using};".Indent());
+                }
             }
 
             if (this.Usings.Any() && this.Classes.Any())
