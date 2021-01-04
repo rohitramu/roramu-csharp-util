@@ -15,7 +15,7 @@
         /// <summary>
         /// The type of the parameter.
         /// </summary>
-        public Type Type { get; }
+        public string TypeName { get; }
 
         /// <summary>
         /// A description of this parameter as seen in documentation comments.
@@ -26,9 +26,9 @@
         /// Creates a new <see cref="CSharpParameter" />.
         /// </summary>
         /// <param name="name">The name of the parameter.</param>
-        /// <param name="type">The type of the parameter.</param>
+        /// <param name="typeName">The parameter type's name.  Providing the full name is recommended.</param>
         /// <param name="description">A description of this parameter as seen in documentation comments.</param>
-        public CSharpParameter(string name, Type type, string description)
+        public CSharpParameter(string name, string typeName, string description = null)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -36,7 +36,7 @@
             }
 
             this.Name = name;
-            this.Type = type ?? throw new ArgumentNullException(nameof(type));
+            this.TypeName = typeName ?? throw new ArgumentNullException(nameof(typeName));
             this.Description = description;
         }
 
@@ -46,7 +46,7 @@
         /// <returns>The string representation of this C# parameter.</returns>
         public override string ToString()
         {
-            return $"{this.Type.FullName} {this.Name}";
+            return $"{this.TypeName} {this.Name}";
         }
     }
 }

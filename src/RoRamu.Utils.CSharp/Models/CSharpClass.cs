@@ -66,7 +66,15 @@
         /// <param name="properties">The properties in this class.</param>
         /// <param name="methods">The methods in this class.</param>
         /// <param name="documentationComment">The documentation comment on this class.</param>
-        public CSharpClass(string name, CSharpAccessModifier accessModifier, string baseType, IEnumerable<string> interfaces, IEnumerable<CSharpAttribute> attributes, IEnumerable<CSharpProperty> properties, IEnumerable<CSharpMethod> methods, CSharpDocumentationComment documentationComment)
+        public CSharpClass(
+            string name,
+            CSharpAccessModifier accessModifier,
+            string baseType,
+            IEnumerable<string> interfaces,
+            IEnumerable<CSharpAttribute> attributes,
+            IEnumerable<CSharpProperty> properties,
+            IEnumerable<CSharpMethod> methods,
+            CSharpDocumentationComment documentationComment)
         {
             if (string.IsNullOrWhiteSpace(name))
             {

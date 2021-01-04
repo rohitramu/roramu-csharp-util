@@ -18,7 +18,7 @@ namespace RoRamu.Utils.CSharp
         /// The underlying type (i.e. the type when all dimensions are removed and it is no longer an array).
         /// If the provided type is not an array type, this method will return the provided type.
         /// </returns>
-        public static Type GetArrayUnderlyingType(Type arrayType, out int dimensions)
+        public static Type GetArrayElementType(Type arrayType, out int dimensions)
         {
             if (arrayType == null)
             {
@@ -53,7 +53,7 @@ namespace RoRamu.Utils.CSharp
             }
 
             // Unwrap the array if required
-            Type tempType = CSharpTypeUtils.GetArrayUnderlyingType(type, out int arrayDimensions);
+            Type tempType = CSharpTypeUtils.GetArrayElementType(type, out int arrayDimensions);
 
             // Get the C# type name
             string typeName;

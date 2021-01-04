@@ -17,7 +17,7 @@
         /// <summary>
         /// The type of this property.
         /// </summary>
-        public Type Type { get; }
+        public string TypeName { get; }
 
         /// <summary>
         /// The access level of this property.
@@ -42,15 +42,19 @@
         /// <param name="accessModifier">The access level of this property.</param>
         /// <param name="attributes">The attributes on this property.</param>
         /// <param name="documentationComment">The documentation comment for this property.</param>
-        public CSharpProperty(string name, Type type, CSharpAccessModifier accessModifier, IEnumerable<CSharpAttribute> attributes, CSharpDocumentationComment documentationComment)
+        public CSharpProperty(string name, string type, CSharpAccessModifier accessModifier, IEnumerable<CSharpAttribute> attributes, CSharpDocumentationComment documentationComment)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentException("C# Property name cannot be null or whitespace", nameof(name));
             }
+            if (type != null && string.IsNullOrWhiteSpace(type))
+            {
+                throw new ArgumentException("Return type cannot be empty or whitespace", nameof(name));
+            }
 
             this.Name = name;
-            this.Type = type ?? throw new ArgumentNullException(nameof(type));
+            this.TypeName = type ?? throw new ArgumentNullException(nameof(type));
             this.AccessModifier = accessModifier;
             this.Attributes = attributes ?? Array.Empty<CSharpAttribute>();
             this.DocumentationComment = documentationComment;
@@ -79,7 +83,7 @@
             }
 
             // Add the property definition itself
-            resultBuilder.Append($"{this.AccessModifier.ToCSharpString()} {this.Type.FullName} {CSharpNamingUtils.SanitizeIdentifier(this.Name)} {{ get; set; }}");
+            resultBuilder.Append($"{this.AccessModifier.ToCSharpString()} {this.TypeName} {CSharpNamingUtils.SanitizeIdentifier(this.Name)} {{ get; set; }}");
 
             // Compile the string
             string result = resultBuilder.ToString();
