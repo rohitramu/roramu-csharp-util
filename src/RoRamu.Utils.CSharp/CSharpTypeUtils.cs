@@ -45,7 +45,7 @@ namespace RoRamu.Utils.CSharp
         /// </summary>
         /// <param name="type">The type</param>
         /// <returns>The C# string</returns>
-        public static string ToCSharpString(this Type type)
+        public static string GetCSharpName(this Type type)
         {
             if (type == null)
             {
@@ -67,7 +67,7 @@ namespace RoRamu.Utils.CSharp
                 string typeNameWithoutArguments = tempType.Name.Substring(0, tempType.Name.IndexOf('`'));
 
                 // Get the type arguments
-                IEnumerable<string> typeArguments = tempType.GenericTypeArguments.Select(typeArgument => CSharpTypeUtils.ToCSharpString(typeArgument));
+                IEnumerable<string> typeArguments = tempType.GenericTypeArguments.Select(typeArgument => typeArgument.GetCSharpName());
                 string typeArgumentsString = string.Join(", ", typeArguments);
 
                 // Create the full type name with arguments
@@ -78,7 +78,7 @@ namespace RoRamu.Utils.CSharp
             if (tempType.DeclaringType != null)
             {
                 // Prepend the declaring type
-                typeName = $"{CSharpTypeUtils.ToCSharpString(tempType.DeclaringType)}.{typeName}";
+                typeName = $"{tempType.DeclaringType.GetCSharpName()}.{typeName}";
             }
             else if (!string.IsNullOrEmpty(tempType.Namespace))
             {
