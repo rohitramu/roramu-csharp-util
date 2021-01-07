@@ -27,7 +27,7 @@
         /// <param name="value">The value in the key-value pair.</param>
         /// <typeparam name="TKey">The type of the key in the key-value pair.</typeparam>
         /// <typeparam name="TValue">The type of the value in the key-value pair.</typeparam>
-        /// <returns></returns>
+        /// <returns>True if the key-value pair was removed, otherwise false.</returns>
         public static bool TryRemove<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
             if (dictionary == null)

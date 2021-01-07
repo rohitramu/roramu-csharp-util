@@ -1,8 +1,12 @@
 namespace RoRamu.Utils.CSharp
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
+    using System.Text;
+    using System.Text.RegularExpressions;
     using System.Xml;
 
     /// <summary>
@@ -10,6 +14,8 @@ namespace RoRamu.Utils.CSharp
     /// </summary>
     public static class CSharpDocumentationUtils
     {
+        private static readonly Regex LeadingWhitespaceRegex = new Regex(@"\s", RegexOptions.Compiled);
+
         /// <summary>
         /// Tries to get the documentation file for a given assembly.
         /// </summary>
@@ -38,7 +44,10 @@ namespace RoRamu.Utils.CSharp
                 }
 
                 // Parse the file as an XML document
-                XmlDocument doc = new XmlDocument();
+                XmlDocument doc = new XmlDocument
+                {
+                    PreserveWhitespace = true
+                };
                 doc.Load(xmlPath);
 
                 xmlDocumentationFile = doc;
@@ -77,7 +86,7 @@ namespace RoRamu.Utils.CSharp
             return documentation;
         }
 
-        /// <summary>
+        ///  <summary>
         /// Tries to get the documentation comment for the given method in the given XML documentation file.
         /// </summary>
         /// <param name="member">The method to get the documentation comment for.</param>
@@ -105,6 +114,7 @@ namespace RoRamu.Utils.CSharp
                 case MemberTypes.Property:
                     prefix = "P";
                     break;
+                case MemberTypes.TypeInfo:
                 case MemberTypes.NestedType:
                     prefix = "T";
                     break;
@@ -130,9 +140,79 @@ namespace RoRamu.Utils.CSharp
 
         private static string GetDocumentationComment(XmlDocument xmlDocumentationFile, string path)
         {
+            // Get the raw text
             string documentation = xmlDocumentationFile
                 .SelectSingleNode("//member[starts-with(@name, '" + path + "')]")?
                 .InnerXml;
+
+            // Return early if the documentation couldn't be found
+            if (string.IsNullOrWhiteSpace(documentation))
+            {
+                return null;
+            }
+
+            // Remove any trailing whitespace
+            documentation = documentation.TrimEnd();
+
+            // Remove indentation of the text block
+            string[] lineArray = documentation
+                .Split('\n')
+                .SkipWhile(s => string.IsNullOrWhiteSpace(s))
+                .ToArray();
+            if (lineArray.Length > 0)
+            {
+                // Iterate over the characters in each line until we find one that doesn't match the other lines or isn't a whitespace
+                int charIndex = 0;
+                bool reachedEnd = false;
+                bool foundWhitespacePrefix = false;
+                while (!reachedEnd && !foundWhitespacePrefix)
+                {
+                    reachedEnd = true;
+                    char currentChar = '\0';
+                    for (int i = 0; i < lineArray.Length && !foundWhitespacePrefix; i++)
+                    {
+                        string line = lineArray[i];
+                        if (line.Length <= charIndex)
+                        {
+                            continue;
+                        }
+
+                        if (currentChar == '\0')
+                        {
+                            currentChar = line[charIndex];
+                        }
+
+                        reachedEnd = false;
+
+                        char current = line[charIndex];
+                        if (current != currentChar || !char.IsWhiteSpace(current))
+                        {
+                            foundWhitespacePrefix = true;
+                        }
+                    }
+
+                    charIndex++;
+                }
+
+                if (foundWhitespacePrefix)
+                {
+                    // Replace each line with a version that doesn't have the prefixed whitespaces
+                    for (int i = 0; i < lineArray.Length; i++)
+                    {
+                        if (lineArray[i].Length <= i)
+                        {
+                            lineArray[i] = string.Empty;
+                        }
+                        else
+                        {
+                            string newLine = lineArray[i].Substring(charIndex - 1);
+                            lineArray[i] = newLine;
+                        }
+                    }
+
+                    documentation = string.Join("\n", lineArray);
+                }
+            }
 
             return documentation;
         }
