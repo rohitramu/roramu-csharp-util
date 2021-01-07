@@ -80,7 +80,7 @@ namespace RoRamu.Utils.CSharp
                 throw new ArgumentNullException(nameof(type));
             }
 
-            string path = "T:" + type.GetCSharpName();
+            string path = "T:" + type.GetCSharpName(identifierOnly: true);
             string documentation = GetDocumentationComment(xmlDocumentationFile, path);
 
             return documentation;
@@ -130,7 +130,7 @@ namespace RoRamu.Utils.CSharp
             }
 
             // Create the XML path
-            string path = $"{prefix}:" + member.DeclaringType.GetCSharpName() + "." + member.Name;
+            string path = $"{prefix}:" + member.DeclaringType.GetCSharpName(identifierOnly: true) + "." + member.Name;
 
             // Get the documentation comment
             string documentation = GetDocumentationComment(xmlDocumentationFile, path);
