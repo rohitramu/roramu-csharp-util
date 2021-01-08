@@ -75,11 +75,13 @@
                     {
                         continue;
                     }
+                    first = false;
 
                     sb.AppendLine(line.TrimEnd().Indent(indentToken: LinePrefix));
                 }
             }
 
+            // Trim the end to remove any trailing empty lines
             string result = sb.ToString().TrimEnd();
 
             return result;
