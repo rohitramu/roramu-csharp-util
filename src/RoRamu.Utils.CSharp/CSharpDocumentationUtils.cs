@@ -154,12 +154,19 @@ namespace RoRamu.Utils.CSharp
             // Remove any trailing whitespace
             documentation = documentation.TrimEnd();
 
+            // Extract each line in the documentation, trimming whitespace from the end
+            IList<string> lines = new List<string>();
+            using (StringReader reader = new StringReader(documentation))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    lines.Add(line.TrimEnd());
+                }
+            }
+
             // Remove indentation of the text block
-            string[] lineArray = documentation
-                .Split('\n')
-                .SkipWhile(s => string.IsNullOrWhiteSpace(s))
-                .ToArray();
-            if (lineArray.Length > 0)
+            if (lines.Count() > 0)
             {
                 // Iterate over the characters in each line until we find one that doesn't match the other lines or isn't a whitespace
                 int charIndex = 0;
@@ -167,50 +174,58 @@ namespace RoRamu.Utils.CSharp
                 bool foundWhitespacePrefix = false;
                 while (!reachedEnd && !foundWhitespacePrefix)
                 {
+                    // Check the character at the current position in every line
                     reachedEnd = true;
                     char currentChar = '\0';
-                    for (int i = 0; i < lineArray.Length && !foundWhitespacePrefix; i++)
+                    for (int i = 0; i < lines.Count() && !foundWhitespacePrefix; i++)
                     {
-                        string line = lineArray[i];
+                        // Ignore lines which are empty or whitespace only
+                        string line = lines[i];
                         if (line.Length <= charIndex)
                         {
                             continue;
                         }
 
+                        // We still have more characters in this line, so we should keep iterating
+                        reachedEnd = false;
+
+                        // Initialize the current character we are tracking if we haven't yet
                         if (currentChar == '\0')
                         {
                             currentChar = line[charIndex];
                         }
 
-                        reachedEnd = false;
-
-                        char current = line[charIndex];
-                        if (current != currentChar || !char.IsWhiteSpace(current))
+                        // Check to see if the character we are up to in this line is the same as the character at this index in other lines
+                        char currentCharInLine = line[charIndex];
+                        if (currentCharInLine != currentChar || !char.IsWhiteSpace(currentCharInLine))
                         {
+                            // There is a mismatch, meaning the previous character in this line was the end of the prefix which is common to all lines
                             foundWhitespacePrefix = true;
                         }
                     }
 
+                    // Move to the next character
                     charIndex++;
                 }
 
-                if (foundWhitespacePrefix)
+                // If we found a prefix made up of only whitespace, then remove it
+                int lineStartIndex = charIndex - 1;
+                if (foundWhitespacePrefix && lineStartIndex > 0)
                 {
                     // Replace each line with a version that doesn't have the prefixed whitespaces
-                    for (int i = 0; i < lineArray.Length; i++)
+                    StringBuilder sb = new StringBuilder();
+                    foreach (string line in lines)
                     {
-                        if (lineArray[i].Length <= i)
-                        {
-                            lineArray[i] = string.Empty;
-                        }
-                        else
-                        {
-                            string newLine = lineArray[i].Substring(charIndex - 1);
-                            lineArray[i] = newLine;
-                        }
+                        // We only need to trim off the prefix from lines which are not already all empty or whitespace
+                        string newLine = line.Length > lineStartIndex
+                            ? line.Substring(lineStartIndex)
+                            : line;
+
+                        sb.AppendLine(newLine);
                     }
 
-                    documentation = string.Join("\n", lineArray);
+                    // Put all of the lines back together
+                    documentation = sb.ToString();
                 }
             }
 

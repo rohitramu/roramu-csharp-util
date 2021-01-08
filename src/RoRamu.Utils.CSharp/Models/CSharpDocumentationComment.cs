@@ -1,5 +1,6 @@
 ﻿namespace RoRamu.Utils.CSharp
 {
+    using System.IO;
     using System.Text;
 
     /// <summary>
@@ -61,7 +62,20 @@
 
         private static string MakeCommentString(string str)
         {
-            return str.Indent(indentToken: LinePrefix);
+            // Trim the whitespace from the end of each line, and also add the comment prefix
+            StringBuilder sb = new StringBuilder();
+            using (StringReader reader = new StringReader(str))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    sb.AppendLine(line.TrimEnd().Indent(indentToken: LinePrefix));
+                }
+            }
+
+            string result = sb.ToString();
+
+            return result;
         }
     }
 }
