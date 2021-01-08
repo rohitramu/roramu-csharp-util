@@ -66,24 +66,32 @@
             StringBuilder sb = new StringBuilder();
             using (StringReader reader = new StringReader(str))
             {
-                bool first = true;
-                string line;
-                while ((line = reader.ReadLine()) != null)
+                string line = reader.ReadLine();
+
+                // Skip leading blank lines
+                while (line != null && string.IsNullOrWhiteSpace(line))
                 {
-                    // Skip leading blank lines
-                    if (first && string.IsNullOrWhiteSpace(line))
+                    // Do nothing
+                    line = reader.ReadLine();
+                }
+
+                // Indent the rest of the lines
+                bool first = true;
+                while (line != null)
+                {
+                    if (!first)
                     {
-                        continue;
+                        sb.AppendLine();
                     }
                     first = false;
 
-                    sb.AppendLine(line.TrimEnd().Indent(indentToken: LinePrefix));
+                    sb.Append(line.Indent(indentToken: LinePrefix));
+
+                    line = reader.ReadLine();
                 }
             }
 
-            // Trim the end to remove any trailing empty lines
-            string result = sb.ToString().TrimEnd();
-
+            string result = sb.ToString();
             return result;
         }
     }

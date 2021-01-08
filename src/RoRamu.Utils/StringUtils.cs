@@ -32,12 +32,19 @@
             {
                 StringBuilder sb = new StringBuilder();
                 string line;
+                bool first = true;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    sb.AppendLine(indentString + line);
+                    if (!first)
+                    {
+                        sb.AppendLine();
+                    }
+                    first = false;
+
+                    sb.Append(indentString + line);
                 }
 
-                string resultString = sb.ToString().TrimEnd(Environment.NewLine.ToCharArray());
+                string resultString = sb.ToString();
                 return resultString;
             }
         }
