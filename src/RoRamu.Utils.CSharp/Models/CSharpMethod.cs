@@ -217,7 +217,7 @@
         {
             StringBuilder sb = new StringBuilder();
 
-            // Method signature (access modifiers,
+            sb.AppendLine(this.DocumentationComment.ToString());
             sb.AppendLine(this.GetMethodSignature());
             sb.AppendLine("{");
             sb.AppendLine(this.Body.Indent());
