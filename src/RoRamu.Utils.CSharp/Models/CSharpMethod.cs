@@ -173,10 +173,12 @@
             // The parameters
             sb.Append('(');
             int numParameters = this.Parameters.Count();
-            if (numParameters == 1)
+            if (numParameters == 1) // If we only have 1 parameter, don't put it on its own line
             {
-                // Check to see if we should put parameters on their own line
-                bool isLongList = numParameters > 1;
+                sb.Append(this.Parameters.Single().ToString());
+            }
+            else if (numParameters > 1) // If we have more than 1 parameter, put each parameter on its own line
+            {
                 bool isFirst = true;
                 foreach (CSharpParameter parameter in this.Parameters)
                 {
@@ -186,19 +188,11 @@
                         sb.Append(',');
                     }
 
-                    // Either add newline or space after the previous parameter, depending on whether we want each parameter on their own line
-                    if (isLongList)
-                    {
-                        sb.AppendLine();
-                        sb.Append(StringUtils.GetIndentPrefix());
-                    }
-                    else if (!isFirst)
-                    {
-                        sb.Append(' ');
-                    }
+                    // Put each parameter on its own line
+                    sb.AppendLine();
 
                     // Add the current parameter
-                    sb.Append(parameter.ToString());
+                    sb.Append(parameter.ToString().Indent());
 
                     isFirst = false;
                 }
