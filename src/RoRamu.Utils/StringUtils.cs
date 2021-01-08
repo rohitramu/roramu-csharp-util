@@ -26,6 +26,12 @@
             // Precalculate the indent string since this won't change
             string indentString = GetIndentPrefix(indentLevel, indentToken);
 
+            // Special case the empty string since StringReader returns null instead of the empty string
+            if (stringToIndent == string.Empty)
+            {
+                return indentString;
+            }
+
             // Indent the string using a StringReader and not String.Replace() because
             // we don't know what kind of newline char is used in this string
             using (StringReader reader = new StringReader(stringToIndent))

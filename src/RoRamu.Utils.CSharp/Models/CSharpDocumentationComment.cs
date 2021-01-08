@@ -85,7 +85,8 @@
                     }
                     first = false;
 
-                    sb.Append(line.Indent(indentToken: LinePrefix));
+                    string outputLine = line.Indent(indentToken: LinePrefix);
+                    sb.Append(outputLine);
 
                     line = reader.ReadLine();
                 }
