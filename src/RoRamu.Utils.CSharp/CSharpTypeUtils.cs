@@ -54,12 +54,16 @@ namespace RoRamu.Utils.CSharp
                 throw new ArgumentNullException(nameof(type));
             }
 
-            // Unwrap the array if required
+            // Unwrap the array type if required
             Type tempType = CSharpTypeUtils.GetArrayElementType(type, out int arrayDimensions);
 
             // Get the C# type name
             string typeName;
-            if (!tempType.IsGenericType)
+            if (tempType == typeof(void))
+            {
+                return "void";
+            }
+            else if (!tempType.IsGenericType)
             {
                 typeName = tempType.Name;
             }
