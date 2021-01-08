@@ -1,7 +1,6 @@
 ﻿namespace RoRamu.Utils
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Text;
 
@@ -31,21 +30,14 @@
             // we don't know what kind of newline char is used in this string
             using (StringReader reader = new StringReader(stringToIndent))
             {
-                IList<string> lines = new List<string>();
+                StringBuilder sb = new StringBuilder();
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    if (!string.IsNullOrEmpty(line))
-                    {
-                        lines.Add(indentString + line);
-                    }
-                    else
-                    {
-                        lines.Add(line);
-                    }
+                    sb.AppendLine(indentString + line);
                 }
 
-                string resultString = string.Join(Environment.NewLine, lines);
+                string resultString = sb.ToString().TrimEnd(Environment.NewLine.ToCharArray());
                 return resultString;
             }
         }
