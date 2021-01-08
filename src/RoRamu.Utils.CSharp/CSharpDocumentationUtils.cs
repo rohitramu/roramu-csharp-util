@@ -165,6 +165,9 @@ namespace RoRamu.Utils.CSharp
                 }
             }
 
+            // Remove leading blank lines
+            lines = lines.SkipWhile(s => string.IsNullOrWhiteSpace(s)).ToList();
+
             // Remove indentation of the text block
             if (lines.Count() > 0)
             {
@@ -224,8 +227,8 @@ namespace RoRamu.Utils.CSharp
                         sb.AppendLine(newLine);
                     }
 
-                    // Put all of the lines back together
-                    documentation = sb.ToString();
+                    // Put all of the lines back together, removing any trailing blank lines
+                    documentation = sb.ToString().TrimEnd();
                 }
             }
 

@@ -66,14 +66,21 @@
             StringBuilder sb = new StringBuilder();
             using (StringReader reader = new StringReader(str))
             {
+                bool first = true;
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
+                    // Skip leading blank lines
+                    if (first && string.IsNullOrWhiteSpace(line))
+                    {
+                        continue;
+                    }
+
                     sb.AppendLine(line.TrimEnd().Indent(indentToken: LinePrefix));
                 }
             }
 
-            string result = sb.ToString();
+            string result = sb.ToString().TrimEnd();
 
             return result;
         }
