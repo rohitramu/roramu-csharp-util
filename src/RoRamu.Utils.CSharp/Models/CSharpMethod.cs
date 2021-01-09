@@ -94,7 +94,7 @@
             this.IsAsync = isAsync;
             this.ReturnType = returnType;
             this.Parameters = parameters ?? Array.Empty<CSharpParameter>();
-            this.Body = body ?? throw new ArgumentNullException(nameof(body));
+            this.Body = body ?? string.Empty;
             this.DocumentationComment = documentationComment;
 
             // Add parameter descriptions into the documentation comment
