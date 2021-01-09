@@ -28,7 +28,7 @@
         /// <summary>
         /// The header at the top of this file.
         /// </summary>
-        public CSharpDocumentationComment FileHeader { get; }
+        public CSharpComment FileHeader { get; }
 
         /// <summary>
         /// Creates a new <see cref="CSharpFile" /> object.
@@ -36,8 +36,8 @@
         /// <param name="namespace">The namespace that everything in this file will be under.</param>
         /// <param name="usings">The usings in this file.</param>
         /// <param name="classes">The classes included in this file.</param>
-        /// <param name="fileHeader">The header at the top of this file.</param>
-        public CSharpFile(string @namespace, IEnumerable<string> usings, IEnumerable<CSharpClass> classes, CSharpDocumentationComment fileHeader)
+        /// <param name="fileHeader">The header comment at the top of this file.</param>
+        public CSharpFile(string @namespace, IEnumerable<string> usings, IEnumerable<CSharpClass> classes, CSharpComment fileHeader)
         {
             if (string.IsNullOrWhiteSpace(@namespace))
             {

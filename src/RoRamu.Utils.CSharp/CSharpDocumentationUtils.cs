@@ -14,8 +14,6 @@ namespace RoRamu.Utils.CSharp
     /// </summary>
     public static class CSharpDocumentationUtils
     {
-        private static readonly Regex LeadingWhitespaceRegex = new Regex(@"\s", RegexOptions.Compiled);
-
         /// <summary>
         /// Tries to get the documentation file for a given assembly.
         /// </summary>
