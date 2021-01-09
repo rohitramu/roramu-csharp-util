@@ -46,7 +46,7 @@
         /// <returns>The string representation of this C# parameter.</returns>
         public override string ToString()
         {
-            return $"{this.TypeName} {this.Name}";
+            return $"{this.TypeName} {CSharpNamingUtils.SanitizeIdentifier(this.Name)}";
         }
     }
 }

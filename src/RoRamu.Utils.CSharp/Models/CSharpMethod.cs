@@ -192,7 +192,7 @@
                     sb.AppendLine();
 
                     // Add the current parameter
-                    sb.Append(parameter.ToString().Indent());
+                    sb.Append(CSharpNamingUtils.SanitizeIdentifier(parameter.ToString()).Indent());
 
                     isFirst = false;
                 }

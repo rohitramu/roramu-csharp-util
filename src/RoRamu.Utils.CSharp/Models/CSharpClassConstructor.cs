@@ -32,6 +32,11 @@
         /// Do this either when this constructor's class does not inherit from another class, or
         /// when the constructor should call the base class' default constructor automatically.
         /// </para>
+        /// <para>
+        /// NOTE: These values will not automatically be sanitized if they are identifiers. For
+        /// example, if one of the variables being passed to the base constructor is called "class",
+        /// then you should provide the string "@class" instead).
+        /// </para>
         /// </param>
         /// <param name="body">The method body.</param>
         /// <param name="documentationComment">
