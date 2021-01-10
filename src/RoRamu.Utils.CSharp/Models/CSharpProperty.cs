@@ -20,6 +20,11 @@
         public string TypeName { get; }
 
         /// <summary>
+        /// Whether or not this is overriding a property in a base type.
+        /// </summary>
+        public bool IsOverride { get; }
+
+        /// <summary>
         /// The access level of this property.
         /// </summary>
         public CSharpAccessModifier AccessModifier { get; }
@@ -39,10 +44,11 @@
         /// </summary>
         /// <param name="name">The name of this property.</param>
         /// <param name="type">The type of this property.</param>
+        /// <param name="isOverride">Whether or not this is overriding a property in a base type.</param>
         /// <param name="accessModifier">The access level of this property.</param>
         /// <param name="attributes">The attributes on this property.</param>
         /// <param name="documentationComment">The documentation comment for this property.</param>
-        public CSharpProperty(string name, string type, CSharpAccessModifier accessModifier, IEnumerable<CSharpAttribute> attributes, CSharpDocumentationComment documentationComment)
+        public CSharpProperty(string name, string type, bool isOverride, CSharpAccessModifier accessModifier, IEnumerable<CSharpAttribute> attributes, CSharpDocumentationComment documentationComment)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -55,6 +61,7 @@
 
             this.Name = name;
             this.TypeName = type ?? throw new ArgumentNullException(nameof(type));
+            this.IsOverride = isOverride;
             this.AccessModifier = accessModifier;
             this.Attributes = attributes ?? Array.Empty<CSharpAttribute>();
             this.DocumentationComment = documentationComment;
@@ -83,7 +90,7 @@
             }
 
             // Add the property definition itself
-            resultBuilder.Append($"{this.AccessModifier.ToCSharpString()} {this.TypeName} {CSharpNamingUtils.SanitizeIdentifier(this.Name)} {{ get; set; }}");
+            resultBuilder.Append($"{this.AccessModifier.ToCSharpString()}{(this.IsOverride ? " override" : string.Empty)} {this.TypeName} {CSharpNamingUtils.SanitizeIdentifier(this.Name)} {{ get; set; }}");
 
             // Compile the string
             string result = resultBuilder.ToString();
