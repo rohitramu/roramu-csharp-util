@@ -142,6 +142,7 @@
             sb.Append($" class {this.Name}");
             if (parents.Any())
             {
+                sb.Append(" : ");
                 sb.Append(string.Join(", ", parents));
             }
             sb.AppendLine();
