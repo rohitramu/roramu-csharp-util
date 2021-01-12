@@ -45,6 +45,11 @@
         public bool HasSetter { get; }
 
         /// <summary>
+        /// The default value for this property.
+        /// </summary>
+        public string DefaultValue { get; }
+
+        /// <summary>
         /// The attributes on this property.
         /// </summary>
         public IEnumerable<CSharpAttribute> Attributes { get; }
@@ -64,6 +69,7 @@
         /// <param name="isOverride">Whether or not this is overriding a property in a base type.</param>
         /// <param name="hasGetter">Whether or not this property has a getter.</param>
         /// <param name="hasSetter">Whether or not this property has a setter.</param>
+        /// <param name="defaultValue">The default value for this property.</param>
         /// <param name="attributes">The attributes on this property.</param>
         /// <param name="documentationComment">The documentation comment for this property.</param>
         public CSharpProperty(
@@ -74,6 +80,7 @@
             bool isOverride = false,
             bool hasGetter = true,
             bool hasSetter = true,
+            string defaultValue = null,
             IEnumerable<CSharpAttribute> attributes = null,
             CSharpDocumentationComment documentationComment = null)
         {
@@ -93,6 +100,7 @@
             this.AccessModifier = accessModifier;
             this.HasGetter = hasGetter;
             this.HasSetter = hasSetter;
+            this.DefaultValue = defaultValue;
             this.Attributes = attributes ?? Array.Empty<CSharpAttribute>();
             this.DocumentationComment = documentationComment;
         }
@@ -104,45 +112,51 @@
         public override string ToString()
         {
             // Create a string builder
-            StringBuilder resultBuilder = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
 
             // Add the documentation comment
             string docComment = this.DocumentationComment?.ToString();
             if (!string.IsNullOrWhiteSpace(docComment))
             {
-                resultBuilder.AppendLine(docComment);
+                sb.AppendLine(docComment);
             }
 
             // Loop through attributes
             foreach (CSharpAttribute attribute in this.Attributes)
             {
-                resultBuilder.AppendLine(attribute.ToString());
+                sb.AppendLine(attribute.ToString());
             }
 
             // Add the property definition itself
-            resultBuilder.Append(this.AccessModifier.ToCSharpString());
+            sb.Append(this.AccessModifier.ToCSharpString());
             if (this.IsStatic)
             {
-                resultBuilder.Append(" static");
+                sb.Append(" static");
             }
             if (this.IsOverride)
             {
-                resultBuilder.Append(" override");
+                sb.Append(" override");
             }
-            resultBuilder.Append($" {this.TypeName} {CSharpNamingUtils.SanitizeIdentifier(this.Name)}");
-            resultBuilder.Append(" {");
+            sb.Append($" {this.TypeName} {CSharpNamingUtils.SanitizeIdentifier(this.Name)}");
+            sb.Append(" {");
             if (this.HasGetter)
             {
-                resultBuilder.Append(" get;");
+                sb.Append(" get;");
             }
             if (this.HasSetter)
             {
-                resultBuilder.Append(" set;");
+                sb.Append(" set;");
             }
-            resultBuilder.Append(" }");
+            sb.Append(" }");
+
+            // Add the default value
+            if (!string.IsNullOrWhiteSpace(this.DefaultValue))
+            {
+                sb.Append($" = {this.DefaultValue};");
+            }
 
             // Compile the string
-            string result = resultBuilder.ToString();
+            string result = sb.ToString();
 
             return result;
         }
