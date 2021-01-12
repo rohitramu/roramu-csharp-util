@@ -1,5 +1,6 @@
 ﻿namespace RoRamu.Utils.CSharp
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
@@ -45,11 +46,11 @@
         /// </param>
         public CSharpClassConstructor(
             string className,
-            CSharpAccessModifier accessModifier,
-            IEnumerable<CSharpParameter> parameters,
-            IEnumerable<string> baseClassConstructorParameterValues,
             string body,
-            CSharpDocumentationComment documentationComment)
+            CSharpAccessModifier accessModifier = CSharpAccessModifier.Public,
+            IEnumerable<CSharpParameter> parameters = null,
+            IEnumerable<string> baseClassConstructorParameterValues = null,
+            CSharpDocumentationComment documentationComment = null)
             : base(
                 name: className,
                 returnType: null,
@@ -61,7 +62,7 @@
                 isAsync: false,
                 documentationComment: documentationComment)
         {
-            this.BaseClassConstructorParameterValues = baseClassConstructorParameterValues;
+            this.BaseClassConstructorParameterValues = baseClassConstructorParameterValues ?? Array.Empty<string>();
         }
 
         /// <summary>

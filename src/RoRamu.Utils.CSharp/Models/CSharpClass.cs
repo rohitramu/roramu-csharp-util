@@ -75,7 +75,7 @@
         /// <param name="documentationComment">The documentation comment on this class.</param>
         public CSharpClass(
             string name,
-            CSharpAccessModifier accessModifier,
+            CSharpAccessModifier accessModifier = CSharpAccessModifier.Public,
             IEnumerable<CSharpProperty> properties = null,
             IEnumerable<CSharpClassConstructor> constructors = null,
             IEnumerable<CSharpMethod> methods = null,
