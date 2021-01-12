@@ -20,6 +20,11 @@
         public string TypeName { get; }
 
         /// <summary>
+        /// Whether or not this is a static property.
+        /// </summary>
+        public bool IsStatic { get; }
+
+        /// <summary>
         /// Whether or not this is overriding a property in a base type.
         /// </summary>
         public bool IsOverride { get; }
@@ -28,6 +33,16 @@
         /// The access level of this property.
         /// </summary>
         public CSharpAccessModifier AccessModifier { get; }
+
+        /// <summary>
+        /// Whether or not this property has a getter.
+        /// </summary>
+        public bool HasGetter { get; }
+
+        /// <summary>
+        /// Whether or not this property has a setter.
+        /// </summary>
+        public bool HasSetter { get; }
 
         /// <summary>
         /// The attributes on this property.
@@ -44,11 +59,23 @@
         /// </summary>
         /// <param name="name">The name of this property.</param>
         /// <param name="type">The type of this property.</param>
-        /// <param name="isOverride">Whether or not this is overriding a property in a base type.</param>
         /// <param name="accessModifier">The access level of this property.</param>
+        /// <param name="isStatic">Whether or not this is a static property.</param>
+        /// <param name="isOverride">Whether or not this is overriding a property in a base type.</param>
+        /// <param name="hasGetter">Whether or not this property has a getter.</param>
+        /// <param name="hasSetter">Whether or not this property has a setter.</param>
         /// <param name="attributes">The attributes on this property.</param>
         /// <param name="documentationComment">The documentation comment for this property.</param>
-        public CSharpProperty(string name, string type, bool isOverride, CSharpAccessModifier accessModifier, IEnumerable<CSharpAttribute> attributes, CSharpDocumentationComment documentationComment)
+        public CSharpProperty(
+            string name,
+            string type,
+            CSharpAccessModifier accessModifier = CSharpAccessModifier.Public,
+            bool isStatic = false,
+            bool isOverride = false,
+            bool hasGetter = true,
+            bool hasSetter = true,
+            IEnumerable<CSharpAttribute> attributes = null,
+            CSharpDocumentationComment documentationComment = null)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -56,13 +83,16 @@
             }
             if (type != null && string.IsNullOrWhiteSpace(type))
             {
-                throw new ArgumentException("Return type cannot be empty or whitespace", nameof(name));
+                throw new ArgumentException("Property type cannot be empty or whitespace", nameof(name));
             }
 
             this.Name = name;
             this.TypeName = type ?? throw new ArgumentNullException(nameof(type));
+            this.IsStatic = isStatic;
             this.IsOverride = isOverride;
             this.AccessModifier = accessModifier;
+            this.HasGetter = hasGetter;
+            this.HasSetter = hasSetter;
             this.Attributes = attributes ?? Array.Empty<CSharpAttribute>();
             this.DocumentationComment = documentationComment;
         }
@@ -90,7 +120,26 @@
             }
 
             // Add the property definition itself
-            resultBuilder.Append($"{this.AccessModifier.ToCSharpString()}{(this.IsOverride ? " override" : string.Empty)} {this.TypeName} {CSharpNamingUtils.SanitizeIdentifier(this.Name)} {{ get; set; }}");
+            resultBuilder.Append(this.AccessModifier.ToCSharpString());
+            if (this.IsStatic)
+            {
+                resultBuilder.Append(" static");
+            }
+            if (this.IsOverride)
+            {
+                resultBuilder.Append(" override");
+            }
+            resultBuilder.Append($" {this.TypeName} {CSharpNamingUtils.SanitizeIdentifier(this.Name)}");
+            resultBuilder.Append(" {");
+            if (this.HasGetter)
+            {
+                resultBuilder.Append(" get;");
+            }
+            if (this.HasSetter)
+            {
+                resultBuilder.Append(" set;");
+            }
+            resultBuilder.Append(" }");
 
             // Compile the string
             string result = resultBuilder.ToString();
