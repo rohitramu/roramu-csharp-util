@@ -223,7 +223,11 @@
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine(this.DocumentationComment.ToString());
+            if (this.DocumentationComment != null)
+            {
+                sb.AppendLine(this.DocumentationComment.ToString());
+            }
+
             sb.AppendLine(this.GetMethodSignature());
             sb.AppendLine("{");
             sb.AppendLine(this.Body.Indent());
