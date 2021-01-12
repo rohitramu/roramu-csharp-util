@@ -1,6 +1,5 @@
 ﻿namespace RoRamu.Utils.CSharp
 {
-    using System.IO;
     using System.Text;
 
     /// <summary>

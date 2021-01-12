@@ -21,6 +21,11 @@
         public CSharpAccessModifier AccessModifier { get; }
 
         /// <summary>
+        /// True if this method is static, otherwise false.
+        /// </summary>
+        public bool IsStatic { get; }
+
+        /// <summary>
         /// True if this method is overriding a base type's method, otherwise false.
         /// </summary>
         public bool IsOverride { get; }
@@ -57,27 +62,29 @@
         /// Constructs a new <see cref="CSharpMethod" /> object.
         /// </summary>
         /// <param name="name">The name of the method.</param>
-        /// <param name="accessModifier">The access level of the method.</param>
-        /// <param name="isOverride">True if this method is overriding a base type's method, otherwise false.</param>
-        /// <param name="isAsync">True if this method should be marked as async, otherwise false.</param>
         /// <param name="returnType">
         /// The full name of the method's return type.
         /// <para>
         /// If null, the return type will not be shown in the generated output.
         /// </para>
         /// </param>
-        /// <param name="parameters">The parameters which need to be provided as inputs to this method.</param>
         /// <param name="body">The method body.</param>
+        /// <param name="parameters">The parameters which need to be provided as inputs to this method.</param>
+        /// <param name="accessModifier">The access level of the method.</param>
+        /// <param name="isStatic">True if this method should be marked as static, otherwise false.</param>
+        /// <param name="isOverride">True if this method is overriding a base type's method, otherwise false.</param>
+        /// <param name="isAsync">True if this method should be marked as async, otherwise false.</param>
         /// <param name="documentationComment">The method's documentation comment.  The parameters' documentation will automatically be included in this comment.</param>
         public CSharpMethod(
             string name,
-            CSharpAccessModifier accessModifier,
-            bool isOverride,
-            bool isAsync,
             string returnType,
-            IEnumerable<CSharpParameter> parameters,
             string body,
-            CSharpDocumentationComment documentationComment)
+            IEnumerable<CSharpParameter> parameters = null,
+            CSharpAccessModifier accessModifier = CSharpAccessModifier.Public,
+            bool isStatic = false,
+            bool isOverride = false,
+            bool isAsync = false,
+            CSharpDocumentationComment documentationComment = null)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -90,6 +97,7 @@
 
             this.Name = name;
             this.AccessModifier = accessModifier;
+            this.IsStatic = isStatic;
             this.IsOverride = isOverride;
             this.IsAsync = isAsync;
             this.ReturnType = returnType;
@@ -152,6 +160,10 @@
 
             // Things that go before the name of the method
             sb.Append(this.AccessModifier.ToCSharpString());
+            if (this.IsStatic)
+            {
+                sb.Append(" static");
+            }
             if (this.IsOverride)
             {
                 sb.Append(" override");

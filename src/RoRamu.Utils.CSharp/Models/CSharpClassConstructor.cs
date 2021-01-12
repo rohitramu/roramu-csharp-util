@@ -51,14 +51,15 @@
             string body,
             CSharpDocumentationComment documentationComment)
             : base(
-                className,
-                accessModifier,
+                name: className,
+                returnType: null,
+                body: body,
+                parameters: parameters,
+                accessModifier: accessModifier,
+                isStatic: false,
                 isOverride: false,
                 isAsync: false,
-                returnType: null,
-                parameters,
-                body,
-                documentationComment)
+                documentationComment: documentationComment)
         {
             this.BaseClassConstructorParameterValues = baseClassConstructorParameterValues;
         }

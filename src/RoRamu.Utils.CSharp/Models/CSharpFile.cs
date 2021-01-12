@@ -37,7 +37,11 @@
         /// <param name="usings">The usings in this file.</param>
         /// <param name="classes">The classes included in this file.</param>
         /// <param name="fileHeader">The header comment at the top of this file.</param>
-        public CSharpFile(string @namespace, IEnumerable<string> usings, IEnumerable<CSharpClass> classes, CSharpComment fileHeader)
+        public CSharpFile(
+            string @namespace,
+            IEnumerable<CSharpClass> classes,
+            IEnumerable<string> usings = null,
+            CSharpComment fileHeader = null)
         {
             if (string.IsNullOrWhiteSpace(@namespace))
             {

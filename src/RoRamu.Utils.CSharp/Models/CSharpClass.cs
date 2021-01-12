@@ -21,6 +21,11 @@
         public CSharpAccessModifier AccessModifier { get; }
 
         /// <summary>
+        /// True if the class is static, otherwise false.
+        /// </summary>
+        public bool IsStatic { get; }
+
+        /// <summary>
         /// The class' base (super/parent) type.
         /// </summary>
         public string BaseType { get; }
@@ -66,17 +71,19 @@
         /// <param name="properties">The properties in this class.</param>
         /// <param name="constructors">The constructor methods for this class.</param>
         /// <param name="methods">The methods in this class.</param>
+        /// <param name="isStatic">True if the class should be marked as static, otherwise false.</param>
         /// <param name="documentationComment">The documentation comment on this class.</param>
         public CSharpClass(
             string name,
             CSharpAccessModifier accessModifier,
-            string baseType,
-            IEnumerable<string> interfaces,
-            IEnumerable<CSharpAttribute> attributes,
-            IEnumerable<CSharpProperty> properties,
-            IEnumerable<CSharpClassConstructor> constructors,
-            IEnumerable<CSharpMethod> methods,
-            CSharpDocumentationComment documentationComment)
+            IEnumerable<CSharpProperty> properties = null,
+            IEnumerable<CSharpClassConstructor> constructors = null,
+            IEnumerable<CSharpMethod> methods = null,
+            bool isStatic = false,
+            string baseType = null,
+            IEnumerable<string> interfaces = null,
+            IEnumerable<CSharpAttribute> attributes = null,
+            CSharpDocumentationComment documentationComment = null)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -91,6 +98,7 @@
             this.Name = name;
             this.AccessModifier = accessModifier;
             this.BaseType = baseType;
+            this.IsStatic = isStatic;
             this.Interfaces = interfaces == null
                 ? Array.Empty<string>().AsEnumerable()
                 : new HashSet<string>(interfaces);
@@ -126,9 +134,17 @@
             IEnumerable<string> parents = this.BaseType == null
                 ? this.Interfaces
                 : this.BaseType.SingleObjectAsEnumerable().Concat(this.Interfaces);
-            string inheritance = parents.Any() ? $" : {string.Join(", ", parents)}" : string.Empty;
-            string nameLine = $"{AccessModifier.ToCSharpString()} class {this.Name}{inheritance}";
-            sb.AppendLine(nameLine);
+            sb.Append(AccessModifier.ToCSharpString());
+            if (this.IsStatic)
+            {
+                sb.Append(" static");
+            }
+            sb.Append($" class {this.Name}");
+            if (parents.Any())
+            {
+                sb.Append(string.Join(", ", parents));
+            }
+            sb.AppendLine();
 
             // Start body
             sb.AppendLine("{");
