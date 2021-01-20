@@ -45,7 +45,7 @@
         }
 
         /// <summary>
-        /// Creates a comparer for a type from a lambda expression.
+        /// Creates an equality comparer for a type from a lambda expression.
         /// </summary>
         /// <typeparam name="T">The type of the objects to be compared.</typeparam>
         /// <param name="equalsFunction">The function which checks whether two objects of the given type are equal.</param>
@@ -54,6 +54,17 @@
         public static IEqualityComparer<T> CreateEqualityComparer<T>(Func<T, T, bool> equalsFunction, Func<T, int> getHashCodeFunction = null)
         {
             return new GenericEqualityComparer<T>(equalsFunction, getHashCodeFunction);
+        }
+
+        /// <summary>
+        /// Creates a comparer for a type from a lambda expression.
+        /// </summary>
+        /// <param name="compareFunction">The function which compares two objects of the given type.</param>
+        /// <typeparam name="T">The type of the objects to be compared.</typeparam>
+        /// <returns>A comparer which uses the given function to compare objects of the given type.</returns>
+        public static IComparer<T> CreateComparer<T>(Func<T, T, int> compareFunction)
+        {
+            return new GenericComparer<T>(compareFunction);
         }
 
         private class GenericEqualityComparer<T> : IEqualityComparer<T>
@@ -75,6 +86,21 @@
             public int GetHashCode(T obj)
             {
                 return this._getHashCode(obj);
+            }
+        }
+
+        private class GenericComparer<T> : IComparer<T>
+        {
+            private readonly Func<T, T, int> _compare;
+
+            public GenericComparer(Func<T, T, int> compareFunction)
+            {
+                this._compare = compareFunction ?? throw new ArgumentNullException(nameof(compareFunction));
+            }
+
+            public int Compare(T x, T y)
+            {
+                return this._compare(x, y);
             }
         }
     }
