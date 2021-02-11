@@ -223,7 +223,8 @@
         {
             StringBuilder sb = new StringBuilder();
 
-            if (this.DocumentationComment != null)
+            string docComment = this.DocumentationComment?.ToString();
+            if (!string.IsNullOrWhiteSpace(docComment))
             {
                 sb.AppendLine(this.DocumentationComment.ToString());
             }
