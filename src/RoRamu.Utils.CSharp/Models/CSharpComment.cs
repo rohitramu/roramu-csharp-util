@@ -35,7 +35,7 @@ namespace RoRamu.Utils.CSharp
         {
             if (string.IsNullOrWhiteSpace(this.Text))
             {
-                return this.Text.Indent(indentToken: this.LinePrefix);
+                return string.Empty;
             }
 
             // Trim the whitespace from the end of each line, and also add the comment prefix
