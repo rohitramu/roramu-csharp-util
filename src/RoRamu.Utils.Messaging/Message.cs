@@ -33,6 +33,8 @@
             Formatting = Formatting.Indented,
         };
 
+        private static JToken NullJToken { get; } = JToken.Parse("null");
+
         /// <summary>
         /// The message ID.
         /// </summary>
@@ -58,7 +60,7 @@
         {
             this.Id = id;
             this.Type = type ?? throw new ArgumentNullException(nameof(type));
-            this.Body = JToken.FromObject(body);
+            this.Body = body == null ? NullJToken : JToken.FromObject(body);
         }
 
         /// <summary>
