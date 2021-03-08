@@ -57,6 +57,75 @@
         }
 
         /// <summary>
+        /// Calculates the cross product of the given arrays.
+        /// </summary>
+        /// <param name="inputData">The arrays from which the cross product should be calculated.</param>
+        /// <returns>The cross product. Each result can be accessed by iterating over the first index.</returns>
+        public static object[][] CrossProduct(params object[][] inputData)
+        {
+            if (inputData == null)
+            {
+                throw new ArgumentNullException(nameof(inputData));
+            }
+            if (inputData.Length == 0)
+            {
+                throw new ArgumentException("Theory data must have at least 1 parameter.", nameof(inputData));
+            }
+            for (int i = 0; i < inputData.Length; i++)
+            {
+                if (inputData[i].Length <= 0)
+                {
+                    throw new ArgumentException($"The list of values for parameter at position {i} is empty.");
+                }
+            }
+
+            // Iterate over each list to obtain each combination of parameter values
+            List<object[]> result = new();
+            int[] indexes = new int[inputData.Length];
+            while (true)
+            {
+                // Construct the current row given the selected indexes
+                object[] currentRow = new object[indexes.Length];
+                for (int paramIndex = 0; paramIndex < inputData.Length; paramIndex++)
+                {
+                    int paramValueIndex = indexes[paramIndex];
+                    currentRow[paramIndex] = inputData[paramIndex][paramValueIndex];
+                }
+
+                // Add this as a row in the data
+                result.Add(currentRow);
+
+                // Update the state of the indexes
+                for (int i = 0; i < indexes.Length; i++)
+                {
+                    int val = indexes[i] + 1;
+                    if (val < inputData[i].Length)
+                    {
+                        indexes[i] = val;
+                        break;
+                    }
+                    else
+                    {
+                        indexes[i] = 0;
+                    }
+                }
+
+                // Check if we're done
+                foreach (int val in indexes)
+                {
+                    // If there is a non-zero value, we need to keep going
+                    if (val != 0)
+                    {
+                        continue;
+                    }
+                }
+                break;
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
         /// Creates a comparer for a type from a lambda expression.
         /// </summary>
         /// <param name="compareFunction">The function which compares two objects of the given type.</param>
