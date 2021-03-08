@@ -80,7 +80,7 @@
             }
 
             // Iterate over each list to obtain each combination of parameter values
-            List<object[]> result = new();
+            List<object[]> result = new List<object[]>();
             int[] indexes = new int[inputData.Length];
             while (true)
             {
