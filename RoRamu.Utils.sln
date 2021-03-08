@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoRamu.Utils.Messaging", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoRamu.Utils.CSharp", "src\RoRamu.Utils.CSharp\RoRamu.Utils.CSharp.csproj", "{817C5A23-72F0-4794-9883-D630A3A57C47}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{064A0C06-4F9A-47D5-A9C5-D9D1C12E79E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoRamu.Utils.Test", "test\RoRamu.Utils\RoRamu.Utils.Test.csproj", "{96BE2905-1DC7-41CD-88D1-127B010B488E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,11 +37,18 @@ Global
 		{817C5A23-72F0-4794-9883-D630A3A57C47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{817C5A23-72F0-4794-9883-D630A3A57C47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{817C5A23-72F0-4794-9883-D630A3A57C47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96BE2905-1DC7-41CD-88D1-127B010B488E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96BE2905-1DC7-41CD-88D1-127B010B488E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96BE2905-1DC7-41CD-88D1-127B010B488E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96BE2905-1DC7-41CD-88D1-127B010B488E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A80C9813-CC55-4280-9708-F3995B72A474}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{96BE2905-1DC7-41CD-88D1-127B010B488E} = {064A0C06-4F9A-47D5-A9C5-D9D1C12E79E9}
 	EndGlobalSection
 EndGlobal

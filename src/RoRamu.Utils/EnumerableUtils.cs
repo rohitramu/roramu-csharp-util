@@ -57,11 +57,11 @@
         }
 
         /// <summary>
-        /// Calculates the cross product of the given arrays.
+        /// Calculates the cartesian product of the given arrays.
         /// </summary>
-        /// <param name="inputData">The arrays from which the cross product should be calculated.</param>
-        /// <returns>The cross product. Each result can be accessed by iterating over the first index.</returns>
-        public static object[][] CrossProduct(params object[][] inputData)
+        /// <param name="inputData">The arrays from which the cartesian product should be calculated.</param>
+        /// <returns>The cartesian product of the given arrays.</returns>
+        public static IEnumerable<object[]> CartesianProduct(params object[][] inputData)
         {
             if (inputData == null)
             {
@@ -80,9 +80,9 @@
             }
 
             // Iterate over each list to obtain each combination of parameter values
-            List<object[]> result = new List<object[]>();
             int[] indexes = new int[inputData.Length];
-            while (true)
+            bool done = false;
+            while (!done)
             {
                 // Construct the current row given the selected indexes
                 object[] currentRow = new object[indexes.Length];
@@ -93,7 +93,7 @@
                 }
 
                 // Add this as a row in the data
-                result.Add(currentRow);
+                yield return currentRow;
 
                 // Update the state of the indexes
                 for (int i = 0; i < indexes.Length; i++)
@@ -111,18 +111,17 @@
                 }
 
                 // Check if we're done
+                done = true;
                 foreach (int val in indexes)
                 {
                     // If there is a non-zero value, we need to keep going
                     if (val != 0)
                     {
-                        continue;
+                        done = false;
+                        break;
                     }
                 }
-                break;
             }
-
-            return result.ToArray();
         }
 
         /// <summary>

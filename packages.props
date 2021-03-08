@@ -3,6 +3,8 @@
     <ItemGroup>
         <PackageReference Update="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" />
         <PackageReference Update="Newtonsoft.Json" Version="11.0.2" />
+
+        <PackageReference Update="FluentAssertions" Version="5.10.3" />
     </ItemGroup>
 
 </Project>
