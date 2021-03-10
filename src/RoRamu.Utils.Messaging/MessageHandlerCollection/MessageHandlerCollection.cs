@@ -4,19 +4,19 @@ namespace RoRamu.Utils.Messaging
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    internal class MessageHandlerCollection : Dictionary<string, MessageHandlerCollectionBuilder.HandlerDelegate>, IMessageHandlerCollection
+    internal class MessageHandlerCollection : Dictionary<string, MessageHandlerCollectionBuilder.HandlerAsyncDelegate>, IMessageHandlerCollection
     {
         public IEnumerable<string> MappedMessageTypes => this.Keys;
 
         /// <summary>
         /// The default message handler to use if one hasn't been mapped for the provided message type.
         /// </summary>
-        private static MessageHandlerCollectionBuilder.HandlerDelegate DefaultFallbackMessageHandler { get; } = (message) =>
+        private static MessageHandlerCollectionBuilder.HandlerAsyncDelegate DefaultFallbackMessageHandler { get; } = (message) =>
         {
             throw new UnknownMessageTypeException(message.Type);
         };
 
-        internal MessageHandlerCollectionBuilder.HandlerDelegate FallbackMessageHandler { get; set; }
+        internal MessageHandlerCollectionBuilder.HandlerAsyncDelegate FallbackMessageHandler { get; set; }
 
         /// <summary>
         /// Handles a message with the mapped handler if one is available, otherwise uses the
@@ -30,7 +30,7 @@ namespace RoRamu.Utils.Messaging
                 throw new ArgumentNullException(nameof(message));
             }
 
-            if (!this.TryGetValue(message.Type, out MessageHandlerCollectionBuilder.HandlerDelegate handler))
+            if (!this.TryGetValue(message.Type, out MessageHandlerCollectionBuilder.HandlerAsyncDelegate handler))
             {
                 handler = FallbackMessageHandler ?? DefaultFallbackMessageHandler;
             }
