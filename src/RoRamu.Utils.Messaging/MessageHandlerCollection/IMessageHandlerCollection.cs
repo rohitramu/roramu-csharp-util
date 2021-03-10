@@ -1,6 +1,7 @@
 namespace RoRamu.Utils.Messaging
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Interface for representing a collection of message handlers.
@@ -19,6 +20,6 @@ namespace RoRamu.Utils.Messaging
         /// <see cref="RoRamu.Utils.Messaging.UnknownMessageTypeException"/>.
         /// </summary>
         /// <param name="message">The message to handle.</param>
-        void HandleMessage(Message message);
+        Task HandleMessage(Message message);
     }
 }

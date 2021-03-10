@@ -1,6 +1,7 @@
 namespace RoRamu.Utils.Messaging
 {
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// A helper class for building new instances of <see cref="RoRamu.Utils.Messaging.IMessageHandlerCollection" />.
@@ -11,7 +12,7 @@ namespace RoRamu.Utils.Messaging
         /// The method signature for message handler implementations.
         /// </summary>
         /// <param name="message">The message to be handled.</param>
-        public delegate void HandlerDelegate(Message message);
+        public delegate Task HandlerDelegate(Message message);
 
         private MessageHandlerCollection MessageHandlerCollection { get; } = new MessageHandlerCollection();
 

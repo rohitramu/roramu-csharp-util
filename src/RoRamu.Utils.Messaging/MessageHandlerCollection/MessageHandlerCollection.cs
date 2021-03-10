@@ -2,6 +2,7 @@ namespace RoRamu.Utils.Messaging
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     internal class MessageHandlerCollection : Dictionary<string, MessageHandlerCollectionBuilder.HandlerDelegate>, IMessageHandlerCollection
     {
@@ -22,7 +23,7 @@ namespace RoRamu.Utils.Messaging
         /// default handler.
         /// </summary>
         /// <param name="message">The message to handle.</param>
-        public void HandleMessage(Message message)
+        public async Task HandleMessage(Message message)
         {
             if (message == null)
             {
@@ -34,7 +35,7 @@ namespace RoRamu.Utils.Messaging
                 handler = FallbackMessageHandler ?? DefaultFallbackMessageHandler;
             }
 
-            handler(message);
+            await handler(message);
         }
     }
 }
