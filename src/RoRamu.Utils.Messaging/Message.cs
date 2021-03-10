@@ -74,6 +74,16 @@
         }
 
         /// <summary>
+        /// Gets the message body as a JToken.  Note that this does a deep clone of the internal
+        /// representation of the message body.
+        /// </summary>
+        /// <returns>The JToken which represents the message body.</returns>
+        public JToken GetBodyAsJToken()
+        {
+            return this.Body?.DeepClone();
+        }
+
+        /// <summary>
         /// Attempts to deserialize the message body into the given type.
         /// </summary>
         /// <param name="result">The deserialized message body if successful, otherwise null.</param>
