@@ -9,10 +9,16 @@ namespace RoRamu.Utils.Messaging
     public class MessageHandlerCollectionBuilder
     {
         /// <summary>
-        /// The method signature for message handler implementations.
+        /// The method signature for asynchronous message handler implementations.
         /// </summary>
         /// <param name="message">The message to be handled.</param>
-        public delegate Task HandlerDelegate(Message message);
+        public delegate Task HandlerAsyncDelegate(Message message);
+
+        /// <summary>
+        /// The method signature for synchronous message handler implementations.
+        /// </summary>
+        /// <param name="message">The message to be handled.</param>
+        public delegate void HandlerDelegate(Message message);
 
         private MessageHandlerCollection MessageHandlerCollection { get; } = new MessageHandlerCollection();
 
@@ -30,9 +36,29 @@ namespace RoRamu.Utils.Messaging
         /// Sets the default handler to use when a message has a type which has no registered handlers.
         /// </summary>
         /// <param name="messageHandler">The default handler implementation.</param>
-        public MessageHandlerCollectionBuilder SetDefaultHandler(HandlerDelegate messageHandler)
+        public MessageHandlerCollectionBuilder SetDefaultHandler(HandlerAsyncDelegate messageHandler)
         {
             this.MessageHandlerCollection.FallbackMessageHandler = messageHandler ?? throw new ArgumentNullException(nameof(messageHandler));
+
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the default handler to use when a message has a type which has no registered handlers.
+        /// </summary>
+        /// <param name="messageHandler">The default handler implementation.</param>
+        public MessageHandlerCollectionBuilder SetDefaultHandler(HandlerDelegate messageHandler)
+        {
+            if (messageHandler == null)
+            {
+                throw new ArgumentNullException(nameof(messageHandler));
+            }
+
+            this.MessageHandlerCollection.FallbackMessageHandler = (m) =>
+            {
+                messageHandler(m);
+                return Task.CompletedTask;
+            };
 
             return this;
         }
@@ -55,7 +81,7 @@ namespace RoRamu.Utils.Messaging
         /// <param name="messageType">The message type to set the handler for.</param>
         /// <param name="messageHandler">The message handler.</param>
         /// <returns></returns>
-        public MessageHandlerCollectionBuilder SetHandler(string messageType, HandlerDelegate messageHandler)
+        public MessageHandlerCollectionBuilder SetHandler(string messageType, HandlerAsyncDelegate messageHandler)
         {
             if (messageType == null)
             {
@@ -63,6 +89,33 @@ namespace RoRamu.Utils.Messaging
             }
 
             this.MessageHandlerCollection[messageType] = messageHandler ?? throw new ArgumentNullException(nameof(messageHandler));
+
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a message handler if one doesn't exist for the given message type, otherwise
+        /// overwrites the previously registered handler for that message type.
+        /// </summary>
+        /// <param name="messageType">The message type to set the handler for.</param>
+        /// <param name="messageHandler">The message handler.</param>
+        /// <returns></returns>
+        public MessageHandlerCollectionBuilder SetHandler(string messageType, HandlerDelegate messageHandler)
+        {
+            if (messageType == null)
+            {
+                throw new ArgumentNullException(nameof(messageType));
+            }
+            if (messageHandler == null)
+            {
+                throw new ArgumentNullException(nameof(messageHandler));
+            }
+
+            this.MessageHandlerCollection[messageType] = (m) =>
+            {
+                messageHandler(m);
+                return Task.CompletedTask;
+            };
 
             return this;
         }
