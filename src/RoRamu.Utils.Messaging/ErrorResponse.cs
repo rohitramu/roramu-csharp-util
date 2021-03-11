@@ -17,9 +17,10 @@
         public new const string MessageType = WellKnownMessageTypes.Error;
 
         /// <summary>
-        /// The exception representing the error.
+        /// The error.
         /// </summary>
-        public Exception Error { get; }
+        public SerializableExceptionInfo Error => this.ErrorInternal.Value;
+        private Lazy<SerializableExceptionInfo> ErrorInternal { get; }
 
         /// <summary>
         /// Creates a new error response message.
@@ -42,6 +43,12 @@
                         formatting: Formatting.Indented)),
                   isError: true)
         {
+            this.ErrorInternal = new Lazy<SerializableExceptionInfo>(() => this.GetBody<SerializableExceptionInfo>());
+        }
+
+        private ErrorResponse(string requestId, SerializableExceptionInfo exceptionInfo) : base(requestId, exceptionInfo, isError: true)
+        {
+            this.ErrorInternal = new Lazy<SerializableExceptionInfo>(() => exceptionInfo);
         }
 
         /// <summary>
@@ -65,6 +72,30 @@
             }
 
             return new ErrorResponse(error, request.Id, includeDebugInfo);
+        }
+
+        /// <summary>
+        /// If the given message is an error response, converts it to an <see cref="ErrorResponse"/>
+        /// object.
+        /// </summary>
+        /// <param name="message">The message to convert.</param>
+        /// <param name="errorResponse">The converted error response.</param>
+        /// <returns>True if parsing was successful, otherwise false.</returns>
+        public static bool TryParse(Message message, out ErrorResponse errorResponse)
+        {
+            // Check message type
+            if (message.Type != ErrorResponse.MessageType)
+            {
+                errorResponse = null;
+                return false;
+            }
+
+            // Check the body
+            message.TryGetBody(out SerializableExceptionInfo serializableExceptionInfo);
+
+            // Return the new error response
+            errorResponse = new ErrorResponse(message.Id, serializableExceptionInfo);
+            return true;
         }
     }
 }

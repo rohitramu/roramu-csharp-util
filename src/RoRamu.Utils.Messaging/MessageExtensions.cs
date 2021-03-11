@@ -100,19 +100,25 @@
             // Check if this message represents a response
             if (message.IsResponse())
             {
-                // Create the response and return true
-                response = new Response(
-                    message.Id,
-                    message.Body,
-                    message.Type == WellKnownMessageTypes.Error);
+                if (ErrorResponse.TryParse(message, out ErrorResponse errorResponse))
+                {
+                    response = errorResponse;
+                }
+                else
+                {
+                    // Create the response and return true
+                    response = new Response(
+                        message.Id,
+                        message.Body,
+                        message.Type == WellKnownMessageTypes.Error);
+                }
+
                 return true;
             }
-            else
-            {
-                // If it's not a response, return false
-                response = null;
-                return false;
-            }
+
+            // If it's not a response, return false
+            response = null;
+            return false;
         }
 
         /// <summary>

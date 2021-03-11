@@ -2,6 +2,7 @@ namespace RoRamu.Utils.Messaging
 {
     using System;
 
+    //TODO: Implement all constructors
     /// <summary>
     /// The exception that is thrown by the default message handler when no handler is registered
     /// for an incoming message's "type" property.

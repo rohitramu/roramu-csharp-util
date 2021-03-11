@@ -24,6 +24,11 @@
         public Response Response { get; }
 
         /// <summary>
+        /// The error response.  Will be null if the response is not an error.
+        /// </summary>
+        public ErrorResponse ErrorResponse => this.Response as ErrorResponse;
+
+        /// <summary>
         /// Whether or not the request completed successfully.
         /// </summary>
         public bool IsSuccessful => this.Exception == null && this.Response.Type != WellKnownMessageTypes.Error;
@@ -46,7 +51,9 @@
             return new RequestResult(
                 request: request,
                 response: response ?? throw new ArgumentNullException(nameof(response)),
-                exception: null);
+                exception: response is ErrorResponse errorResponse
+                    ? new ErrorResponseException(errorResponse.Error)
+                    : null);
         }
 
         /// <summary>
