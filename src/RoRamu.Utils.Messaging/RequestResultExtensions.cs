@@ -11,7 +11,7 @@
         /// Throws an exception if the request failed.
         /// </summary>
         /// <param name="result"></param>
-        public static void ThrowOnError(this RequestResult result)
+        public static RequestResult ThrowOnError(this RequestResult result)
         {
             if (result == null)
             {
@@ -22,6 +22,8 @@
             {
                 throw result.Exception ?? new ErrorResponseException("Unexpected failure - no exception found in error response.", null);
             }
+
+            return result;
         }
     }
 }
