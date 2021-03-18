@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <ProjectReference Include="..\RoRamu.Utils\RoRamu.Utils.csproj" />
+        <ProjectReference Include="$(SrcRoot)Utils\RoRamu.Utils.csproj" />
     </ItemGroup>
 
     <ItemGroup>

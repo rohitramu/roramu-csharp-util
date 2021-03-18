@@ -3,17 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoRamu.Utils", "src\RoRamu.Utils\RoRamu.Utils.csproj", "{8B2BA1FE-B793-4452-8EBD-EA5AF8FE505A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoRamu.Utils", "src\Utils\RoRamu.Utils.csproj", "{8B2BA1FE-B793-4452-8EBD-EA5AF8FE505A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoRamu.Utils.Logging", "src\RoRamu.Utils.Logging\RoRamu.Utils.Logging.csproj", "{3F81B7F7-8FA0-4AD7-ADFE-8BF412468F54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoRamu.Utils.Logging", "src\Utils.Logging\RoRamu.Utils.Logging.csproj", "{3F81B7F7-8FA0-4AD7-ADFE-8BF412468F54}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoRamu.Utils.Messaging", "src\RoRamu.Utils.Messaging\RoRamu.Utils.Messaging.csproj", "{20F05374-C068-48BB-A757-48ED33E9D8BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoRamu.Utils.Messaging", "src\Utils.Messaging\RoRamu.Utils.Messaging.csproj", "{20F05374-C068-48BB-A757-48ED33E9D8BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoRamu.Utils.CSharp", "src\RoRamu.Utils.CSharp\RoRamu.Utils.CSharp.csproj", "{817C5A23-72F0-4794-9883-D630A3A57C47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoRamu.Utils.CSharp", "src\Utils.CSharp\RoRamu.Utils.CSharp.csproj", "{817C5A23-72F0-4794-9883-D630A3A57C47}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{064A0C06-4F9A-47D5-A9C5-D9D1C12E79E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoRamu.Utils.Test", "test\RoRamu.Utils\RoRamu.Utils.Test.csproj", "{96BE2905-1DC7-41CD-88D1-127B010B488E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoRamu.Utils.Test", "test\Utils\RoRamu.Utils.Test.csproj", "{96BE2905-1DC7-41CD-88D1-127B010B488E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoRamu.Utils.CSharp.Test", "test\Utils.CSharp\RoRamu.Utils.CSharp.Test.csproj", "{01A3C77A-1017-46E0-BAF9-3E86ACD236CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoRamu.Utils.Logging.Test", "test\Utils.Logging\RoRamu.Utils.Logging.Test.csproj", "{F6410619-E22F-4414-AD09-0E48EC7F582E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoRamu.Utils.Messaging.Test", "test\Utils.Messaging\RoRamu.Utils.Messaging.Test.csproj", "{6DDA8311-B272-475E-98F8-86BA1B203AE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +47,18 @@ Global
 		{96BE2905-1DC7-41CD-88D1-127B010B488E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96BE2905-1DC7-41CD-88D1-127B010B488E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96BE2905-1DC7-41CD-88D1-127B010B488E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01A3C77A-1017-46E0-BAF9-3E86ACD236CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01A3C77A-1017-46E0-BAF9-3E86ACD236CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01A3C77A-1017-46E0-BAF9-3E86ACD236CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01A3C77A-1017-46E0-BAF9-3E86ACD236CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6410619-E22F-4414-AD09-0E48EC7F582E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6410619-E22F-4414-AD09-0E48EC7F582E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6410619-E22F-4414-AD09-0E48EC7F582E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6410619-E22F-4414-AD09-0E48EC7F582E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DDA8311-B272-475E-98F8-86BA1B203AE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DDA8311-B272-475E-98F8-86BA1B203AE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DDA8311-B272-475E-98F8-86BA1B203AE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DDA8311-B272-475E-98F8-86BA1B203AE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,5 +68,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{96BE2905-1DC7-41CD-88D1-127B010B488E} = {064A0C06-4F9A-47D5-A9C5-D9D1C12E79E9}
+		{01A3C77A-1017-46E0-BAF9-3E86ACD236CF} = {064A0C06-4F9A-47D5-A9C5-D9D1C12E79E9}
+		{F6410619-E22F-4414-AD09-0E48EC7F582E} = {064A0C06-4F9A-47D5-A9C5-D9D1C12E79E9}
+		{6DDA8311-B272-475E-98F8-86BA1B203AE1} = {064A0C06-4F9A-47D5-A9C5-D9D1C12E79E9}
 	EndGlobalSection
 EndGlobal
